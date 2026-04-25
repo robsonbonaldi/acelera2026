@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRATUS · ACELERA 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0ebe0;--cream:#f5f0e8;--charcoal:#1a1814;--ink:#2a2724;
+  --stone:#7a7268;--border:#ddd8cf;--border2:#c8c0b4;
+  --gold:#c9a84c;--gold2:#d4b86a;--glow:rgba(201,168,76,.35);
+  --panel:#ffffff;--panel2:#faf7f2;
+  --c-swim:#3b82f6;--c-run:#22c55e;--c-bike:#f59e0b;
+  --c-brick:#ec4899;--c-rest:#94a3b8;--c-prova:#c9a84c;--c-arr:#7c3aed;
+  --f1:#2d6a4f;--f2:#1a3a5c;--f3:#8a6f35;--f4:#922b21;--f5:#5b21b6;--f6:#374151;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* STRATUS FACE BG */
+.stratus-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.stratus-bg svg{position:absolute;bottom:-8%;right:-4%;width:min(65vw,680px);opacity:.05;filter:blur(.3px);}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(26,24,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,.2);}
+.nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.18em;color:var(--gold);padding:0 18px;display:flex;align-items:center;gap:8px;border-right:1px solid rgba(201,168,76,.15);white-space:nowrap;flex-shrink:0;}
+.ntab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#7a7268;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;padding:0 12px;height:44px;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.ntab:hover{color:var(--gold);}
+.ntab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.ntab.soon{opacity:.4;cursor:default;font-style:italic;}
+
+/* HERO */
+.hero{background:var(--charcoal);padding:36px 22px 32px;border-bottom:1px solid rgba(201,168,76,.18);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 50%,rgba(201,168,76,.05) 0%,transparent 65%);}
+.hero-inner{max-width:1300px;margin:0 auto;position:relative;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.22em;color:rgba(201,168,76,.55);text-transform:uppercase;margin-bottom:9px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,5.5vw,76px);line-height:.88;color:#f0ebe2;letter-spacing:.04em;margin-bottom:7px;}
+.hero-title strong{color:var(--gold);}
+.hero-sub{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.08em;color:#5a5248;margin-bottom:20px;}
+.hero-div{width:36px;height:1px;background:var(--gold);opacity:.3;margin-bottom:20px;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:14px 26px;margin-bottom:22px;}
+.hm-k{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.13em;color:#4a4642;text-transform:uppercase;}
+.hm-v{font-size:13px;font-weight:600;color:#d8d2c8;margin-top:2px;}
+.hero-stratus{display:flex;align-items:center;gap:12px;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.17);border-radius:10px;padding:10px 15px;width:fit-content;}
+.s-sym{font-size:24px;color:var(--gold);}
+.s-name{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.22em;color:var(--gold);}
+.s-role{font-family:'DM Mono',monospace;font-size:7px;color:#6b6258;letter-spacing:.08em;margin-top:2px;}
+.hero-quote{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(201,168,76,.5);font-style:italic;margin-top:11px;}
+
+/* PANES */
+.pane{display:none;max-width:1300px;margin:0 auto;padding:22px 18px 60px;position:relative;z-index:1;}
+.pane.active{display:block;}
+.sec-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* TREINOS */
+.wk-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.wk-arr{background:var(--charcoal);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:14px;transition:.15s;}
+.wk-arr:hover{background:#2d2a24;}
+.wk-dd{font-family:'DM Mono',monospace;font-size:8.5px;background:var(--charcoal);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:7px 11px;cursor:pointer;max-width:340px;}
+.wk-period{font-family:'DM Mono',monospace;font-size:8.5px;color:var(--stone);}
+.wk-fb{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.15em;padding:3px 9px;border-radius:4px;}
+
+/* volume badge */
+.wk-vol{font-family:'DM Mono',monospace;font-size:8px;background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:3px 9px;color:var(--stone);}
+.wk-vol strong{color:var(--ink);}
+
+/* dias grid */
+.dias-wrap{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
+@media(max-width:1000px){.dias-wrap{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:560px){.dias-wrap{grid-template-columns:1fr 1fr;}}
+
+/* dia card */
+.dia-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 9px;display:flex;flex-direction:column;gap:3px;transition:box-shadow .2s;min-height:200px;}
+.dia-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.dia-card.rest-day{background:var(--panel2);opacity:.6;min-height:100px;}
+.dia-card.race-day{border:2px solid var(--gold);background:rgba(201,168,76,.04);}
+
+.d-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.d-dow{font-family:'DM Mono',monospace;font-size:7px;color:var(--stone);letter-spacing:.07em;}
+.d-date{font-family:'DM Mono',monospace;font-size:7px;color:var(--stone);letter-spacing:.05em;}
+.d-vol-tag{font-family:'DM Mono',monospace;font-size:6px;background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:1px 5px;color:var(--stone);}
+
+/* sessão dentro do dia */
+.sessao{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:7px 8px;margin-bottom:5px;}
+.sessao:last-of-type{margin-bottom:0;}
+.sessao.s-swim{border-left:3px solid var(--c-swim);}
+.sessao.s-run{border-left:3px solid var(--c-run);}
+.sessao.s-bike{border-left:3px solid var(--c-bike);}
+.sessao.s-brick{border-left:3px solid var(--c-brick);}
+.sessao.s-rest{border-left:3px solid var(--c-rest);}
+.sessao.s-prova{border-left:3px solid var(--c-prova);background:rgba(201,168,76,.05);}
+.sessao.s-arr{border-left:3px solid var(--c-arr);}
+.s-tipo-badge{font-family:'DM Mono',monospace;font-size:6.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;}
+.s-tipo-badge.swim{color:var(--c-swim);}
+.s-tipo-badge.run{color:#16a34a;}
+.s-tipo-badge.bike{color:#d97706;}
+.s-tipo-badge.brick{color:#db2777;}
+.s-tipo-badge.rest{color:var(--c-rest);}
+.s-tipo-badge.prova{color:var(--gold);}
+.s-tipo-badge.arr{color:var(--c-arr);}
+.s-title{font-size:9.5px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:3px;}
+.s-detail{font-size:8.5px;color:var(--stone);line-height:1.45;}
+.s-chips{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px;}
+.s-chip{font-family:'DM Mono',monospace;font-size:6px;background:var(--cream);border:1px solid var(--border2);border-radius:2px;padding:1px 4px;color:var(--stone);}
+
+.d-acts{display:flex;gap:4px;margin-top:6px;}
+.d-btn{font-family:'DM Mono',monospace;font-size:6.5px;padding:2px 6px;border-radius:4px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--stone);transition:.15s;}
+.d-btn:hover{border-color:var(--gold);color:var(--gold);}
+.d-btn.del:hover{border-color:#ef4444;color:#ef4444;}
+
+/* CALENDÁRIO */
+.cal-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.cal-mname{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:.1em;color:var(--ink);}
+.cal-btn{background:var(--charcoal);color:var(--gold);border:none;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:14px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-dow{font-family:'DM Mono',monospace;font-size:7px;text-align:center;color:var(--stone);padding:4px 0;letter-spacing:.06em;}
+.cal-day{min-height:68px;border-radius:6px;background:var(--panel2);border:1px solid transparent;padding:5px 6px;cursor:pointer;transition:.18s;}
+.cal-day:hover{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
+.cal-day.today{border-color:var(--gold)!important;background:rgba(201,168,76,.08)!important;}
+.cal-day.empty{background:transparent;border:none;cursor:default;}
+.cal-dn{font-family:'DM Mono',monospace;font-size:8.5px;color:var(--stone);margin-bottom:3px;}
+.cal-sessions{display:flex;flex-direction:column;gap:2px;margin-top:2px;}
+.cal-session-dot{display:flex;align-items:center;gap:3px;}
+.cal-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.cal-session-label{font-size:6px;font-family:'DM Mono',monospace;color:var(--stone);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70px;}
+.cal-prova-label{font-size:6px;color:var(--gold);font-family:'DM Mono',monospace;margin-top:2px;font-weight:600;}
+.cal-leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;}
+.cl-it{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:7.5px;color:var(--stone);}
+.cl-dot{width:7px;height:7px;border-radius:50%;}
+
+/* CAL MODAL */
+.cdm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.cdm-overlay.open{display:flex;}
+.cdm-box{background:var(--charcoal);border:1px solid rgba(201,168,76,.22);border-radius:14px;padding:22px;max-width:460px;width:100%;max-height:88vh;overflow-y:auto;position:relative;}
+.cdm-x{position:absolute;top:13px;right:15px;background:none;border:none;color:#6b6258;font-size:18px;cursor:pointer;}
+.cdm-x:hover{color:#f0ebe2;}
+.cdm-eye{font-family:'DM Mono',monospace;font-size:7px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px;}
+.cdm-h{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#f0ebe2;margin-bottom:13px;}
+.cdm-session{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px;margin-bottom:7px;}
+.cdm-stype{font-family:'DM Mono',monospace;font-size:7px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.cdm-stitle{font-size:13px;font-weight:600;color:#f0ebe2;margin-bottom:3px;}
+.cdm-sdetail{font-size:10.5px;color:#b0a89e;line-height:1.6;}
+.cdm-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;}
+.cdm-chip{font-family:'DM Mono',monospace;font-size:6.5px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:2px 6px;color:var(--gold);}
+.cdm-btn{display:block;width:100%;margin-top:13px;background:var(--gold);color:var(--charcoal);border:none;border-radius:8px;padding:10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.1em;cursor:pointer;text-transform:uppercase;font-weight:600;}
+
+/* IA */
+.ia-hd{display:flex;align-items:center;gap:14px;background:var(--charcoal);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:13px 17px;margin-bottom:13px;}
+.ia-sym{font-size:28px;color:var(--gold);}
+.ia-hn{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.2em;color:var(--gold);}
+.ia-hr{font-family:'DM Mono',monospace;font-size:7.5px;color:#7a7268;letter-spacing:.08em;margin-top:2px;}
+.ia-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px;}
+.ia-chip{font-family:'DM Mono',monospace;font-size:7.5px;background:var(--charcoal);color:var(--gold);border:1px solid rgba(201,168,76,.22);border-radius:20px;padding:5px 11px;cursor:pointer;transition:.15s;}
+.ia-chip:hover{background:#2a2620;}
+.ia-msgs{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:13px;height:360px;overflow-y:auto;margin-bottom:9px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;gap:9px;align-items:flex-start;}
+.msg.u{flex-direction:row-reverse;}
+.m-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.m-av.ai{background:var(--charcoal);color:var(--gold);font-size:14px;}
+.m-av.u{background:var(--gold);color:var(--charcoal);}
+.m-bub{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:11.5px;line-height:1.65;color:var(--ink);max-width:84%;}
+.msg.u .m-bub{background:var(--charcoal);color:#e8e2d8;border-color:rgba(201,168,76,.18);}
+.m-bub strong{color:var(--gold);}
+.ia-typing{display:none;font-family:'DM Mono',monospace;font-size:8px;color:var(--gold);letter-spacing:.1em;padding:4px 0;align-items:center;gap:5px;}
+.ia-typing.show{display:flex;}
+@keyframes blink{0%,100%{opacity:.2;}50%{opacity:1;}}
+.ia-dots span{animation:blink 1.1s infinite;display:inline-block;}
+.ia-dots span:nth-child(2){animation-delay:.22s;}
+.ia-dots span:nth-child(3){animation-delay:.44s;}
+.ia-row{display:flex;gap:8px;}
+.ia-in{flex:1;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--panel);color:var(--ink);resize:none;}
+.ia-in:focus{outline:none;border-color:var(--gold);}
+.ia-btn{background:var(--charcoal);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:9px 17px;cursor:pointer;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;}
+.ia-btn:hover{background:#2a2620;}
+.ia-btn:disabled{opacity:.45;cursor:not-allowed;}
+
+/* TESTES */
+.testes-intro{background:var(--charcoal);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:15px 19px;margin-bottom:18px;font-size:11px;color:#c4bdb4;line-height:1.7;}
+.testes-intro strong{color:var(--gold);}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+@media(max-width:620px){.tg{grid-template-columns:1fr;}}
+.tc{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;border-top:3px solid;}
+.tc.sw{border-top-color:var(--c-swim);}
+.tc.ru{border-top-color:var(--c-run);}
+.tc.bi{border-top-color:var(--c-bike);}
+.tc-mod{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.13em;text-transform:uppercase;color:var(--stone);margin-bottom:4px;}
+.tc-n{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.tc-d{font-size:9px;color:var(--stone);line-height:1.5;margin-bottom:9px;}
+.tc-r{display:flex;flex-direction:column;gap:3px;}
+.tc-ri{font-family:'DM Mono',monospace;font-size:7.5px;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:3px 7px;color:var(--stone);}
+.tc-ri strong{color:var(--ink);}
+.proto-t{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.14em;color:var(--stone);margin:22px 0 11px;border-bottom:1px solid var(--border);padding-bottom:6px;}
+.pb{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:9px;}
+.pb-t{font-size:11.5px;font-weight:600;color:var(--ink);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+.pb-b{font-family:'DM Mono',monospace;font-size:6.5px;background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:2px 5px;color:var(--stone);}
+.pb-s{margin-top:7px;display:flex;flex-direction:column;gap:4px;}
+.pb-si{font-size:9.5px;color:var(--stone);line-height:1.5;padding-left:9px;border-left:2px solid var(--border);}
+.pb-si strong{color:var(--ink);}
+
+/* NUTRIÇÃO */
+.nutri-holder{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;gap:16px;}
+.nutri-sym{font-size:50px;opacity:.22;}
+.nutri-h{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.15em;color:var(--stone);}
+.nutri-p{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--stone);letter-spacing:.05em;max-width:380px;line-height:1.8;}
+
+/* FEEDBACK */
+.fb-form{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
+.fb-q{margin-bottom:13px;}
+.fb-q label{display:block;font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.1em;color:var(--stone);text-transform:uppercase;margin-bottom:5px;}
+.fb-q select,.fb-q textarea{width:100%;border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-size:11.5px;font-family:'DM Sans',sans-serif;background:var(--panel2);color:var(--ink);}
+.fb-q select:focus,.fb-q textarea:focus{outline:none;border-color:var(--gold);}
+.fb-q textarea{resize:vertical;min-height:60px;}
+.fb-sub{background:var(--charcoal);color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:8px;padding:10px 20px;cursor:pointer;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;}
+.fb-resp{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:13px;margin-top:13px;display:none;font-size:11.5px;line-height:1.7;}
+.fb-resp.show{display:block;}
+.fb-resp strong{color:var(--gold);}
+
+/* PROVAS */
+.pv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(max-width:560px){.pv-grid{grid-template-columns:1fr;}}
+.pv-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:15px;}
+.pv-card.a{border-left:3px solid #22c55e;}
+.pv-card.b{border-left:3px solid #f59e0b;}
+.pv-dt{font-family:'DM Mono',monospace;font-size:7.5px;color:var(--stone);letter-spacing:.09em;margin-bottom:3px;}
+.pv-n{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.pv-d{font-size:9.5px;color:var(--stone);margin-bottom:7px;}
+.pv-badge{font-family:'DM Mono',monospace;font-size:6.5px;padding:2px 7px;border-radius:3px;display:inline-block;}
+.bg-a{background:#dcfce7;color:#166534;}
+.bg-b{background:#fef3c7;color:#92400e;}
+
+/* PAINEL */
+.painel-g{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px;}
+@media(max-width:600px){.painel-g{grid-template-columns:1fr 1fr;}}
+.pm{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:.2s;}
+.pm:hover{box-shadow:0 4px 16px rgba(0,0,0,.07);}
+.pm-l{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);margin-bottom:4px;}
+.pm-v{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;line-height:1;}
+.pm-s{font-size:9px;color:var(--stone);margin-top:3px;}
+.chart-box{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;}
+.chart-t{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.12em;color:var(--stone);text-transform:uppercase;margin-bottom:11px;}
+.vol-c{display:flex;align-items:flex-end;gap:2px;height:100px;overflow-x:auto;}
+.bc{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:20px;}
+.bc-b{border-radius:2px 2px 0 0;width:100%;}
+.bc-l{font-family:'DM Mono',monospace;font-size:5px;color:var(--stone);text-align:center;}
+.fases-list{display:flex;flex-direction:column;gap:6px;}
+.fase-r{display:flex;align-items:flex-start;gap:9px;}
+.fase-c{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:2px;}
+.fase-t{font-size:11px;color:var(--stone);}
+.fase-t strong{color:var(--ink);}
+
+/* AÇÕES */
+.acoes-l{display:flex;flex-direction:column;gap:6px;}
+.ac-it{display:flex;align-items:flex-start;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
+.ac-ck{width:19px;height:19px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:9px;transition:.2s;margin-top:1px;}
+.ac-ck.done{background:#1d4a2a;border-color:#1d4a2a;color:#fff;}
+.ac-tx{font-size:11.5px;color:var(--ink);line-height:1.5;}
+.ac-tx.done{text-decoration:line-through;color:var(--stone);}
+.ac-pr{font-family:'DM Mono',monospace;font-size:7.5px;color:var(--stone);margin-top:3px;}
+
+/* METRIC MODAL */
+.mm-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;}
+.mm-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;}
+.mm-x{position:absolute;top:13px;right:15px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--stone);}
+.mm-x:hover{color:var(--ink);}
+.mm-box h3{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.1em;margin-bottom:11px;}
+.mm-box p,.mm-box li{font-size:11.5px;line-height:1.7;color:var(--stone);}
+.mm-box li{margin-left:15px;margin-bottom:3px;}
+.mm-box strong{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<!-- STRATUS FACE BG -->
+<div class="stratus-bg">
+<svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <ellipse cx="250" cy="260" rx="160" ry="200" stroke="#c9a84c" stroke-width="1.5"/>
+  <ellipse cx="195" cy="210" rx="28" ry="18" stroke="#c9a84c" stroke-width="1.2"/>
+  <ellipse cx="305" cy="210" rx="28" ry="18" stroke="#c9a84c" stroke-width="1.2"/>
+  <circle cx="195" cy="210" r="9" fill="#c9a84c" opacity=".35"/>
+  <circle cx="305" cy="210" r="9" fill="#c9a84c" opacity=".35"/>
+  <polygon points="195,203 202,210 195,217 188,210" fill="#c9a84c"/>
+  <polygon points="305,203 312,210 305,217 298,210" fill="#c9a84c"/>
+  <line x1="250" y1="220" x2="250" y2="275" stroke="#c9a84c" stroke-width="1"/>
+  <line x1="238" y1="275" x2="262" y2="275" stroke="#c9a84c" stroke-width="1"/>
+  <path d="M210 322 Q250 348 290 322" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="250" y1="63" x2="250" y2="108" stroke="#c9a84c" stroke-width="1"/>
+  <line x1="208" y1="83" x2="292" y2="83" stroke="#c9a84c" stroke-width="1"/>
+  <rect x="237" y="56" width="26" height="17" rx="2" stroke="#c9a84c" stroke-width="1"/>
+  <rect x="78" y="234" width="14" height="34" rx="3" stroke="#c9a84c" stroke-width="1"/>
+  <rect x="408" y="234" width="14" height="34" rx="3" stroke="#c9a84c" stroke-width="1"/>
+  <line x1="92" y1="244" x2="88" y2="244" stroke="#c9a84c" stroke-width="1"/><line x1="92" y1="251" x2="88" y2="251" stroke="#c9a84c" stroke-width="1"/><line x1="92" y1="258" x2="88" y2="258" stroke="#c9a84c" stroke-width="1"/>
+  <line x1="408" y1="244" x2="412" y2="244" stroke="#c9a84c" stroke-width="1"/><line x1="408" y1="251" x2="412" y2="251" stroke="#c9a84c" stroke-width="1"/><line x1="408" y1="258" x2="412" y2="258" stroke="#c9a84c" stroke-width="1"/>
+  <polygon points="250,452 218,428 282,428" stroke="#c9a84c" stroke-width="1" fill="none"/>
+  <line x1="100" y1="58" x2="400" y2="58" stroke="#c9a84c" stroke-width=".5" opacity=".45"/>
+  <line x1="100" y1="458" x2="400" y2="458" stroke="#c9a84c" stroke-width=".5" opacity=".45"/>
+  <line x1="48" y1="148" x2="48" y2="372" stroke="#c9a84c" stroke-width=".5" opacity=".45"/>
+  <line x1="452" y1="148" x2="452" y2="372" stroke="#c9a84c" stroke-width=".5" opacity=".45"/>
+  <line x1="88" y1="178" x2="412" y2="178" stroke="#c9a84c" stroke-width=".4" opacity=".25"/>
+  <line x1="88" y1="298" x2="412" y2="298" stroke="#c9a84c" stroke-width=".4" opacity=".25"/>
+  <line x1="88" y1="378" x2="412" y2="378" stroke="#c9a84c" stroke-width=".4" opacity=".25"/>
+  <text x="55" y="198" font-family="monospace" font-size="7.5" fill="#c9a84c" opacity=".55">FC:190</text>
+  <text x="55" y="212" font-family="monospace" font-size="7.5" fill="#c9a84c" opacity=".55">Z2:133</text>
+  <text x="390" y="198" font-family="monospace" font-size="7.5" fill="#c9a84c" opacity=".55">CTL:140</text>
+  <text x="385" y="212" font-family="monospace" font-size="7.5" fill="#c9a84c" opacity=".55">TSS:1400</text>
+  <text x="214" y="553" font-family="monospace" font-size="10" fill="#c9a84c" opacity=".45" letter-spacing="3">STRATUS</text>
+</svg>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><span style="font-size:16px">◈</span>&nbsp;STRATUS · ACELERA</div>
+    <button class="ntab active" onclick="showPane('calendario',this)">Calendário</button>
+    <button class="ntab" onclick="showPane('treinos',this)">Treinos</button>
+    <button class="ntab" onclick="showPane('testes',this)">Testes de Campo</button>
+    <button class="ntab soon" onclick="void(0)">Nutrição ·soon</button>
+    <button class="ntab" onclick="showPane('ia',this)">STRATUS IA</button>
+    <button class="ntab" onclick="showPane('feedback',this)">Feedback</button>
+    <button class="ntab" onclick="showPane('provas',this)">Provas</button>
+    <button class="ntab" onclick="showPane('painel',this)">Painel</button>
+    <button class="ntab" onclick="showPane('acoes',this)">Ações</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Projeto Stratus · Acelera 2026 · Clermont, Orlando Florida</div>
+    <div class="hero-title">STRATUS<strong>ACELERA 2026</strong></div>
+    <div class="hero-sub">Maratona Chicago · Ironman Florida · 70.3 Nice · 70.3 Haines City · Robson Bonaldi</div>
+    <div class="hero-div"></div>
+    <div class="hero-meta">
+      <div><div class="hm-k">Chegada Orlando</div><div class="hm-v">15 Mai 2026</div></div>
+      <div><div class="hm-k">PR Maratona</div><div class="hm-v">2h48 Houston</div></div>
+      <div><div class="hm-k">PR 70.3</div><div class="hm-v">4h14 Floripa</div></div>
+      <div><div class="hm-k">Meta Chicago</div><div class="hm-v">2h40–2h45</div></div>
+      <div><div class="hm-k">Meta IM Florida</div><div class="hm-v">Sub 9h45</div></div>
+      <div><div class="hm-k">FC Máx / Rep.</div><div class="hm-v">190 / 37 bpm</div></div>
+      <div><div class="hm-k">Nível</div><div class="hm-v">Avançado / Q.Prof.</div></div>
+    </div>
+    <div class="hero-stratus">
+      <div class="s-sym">◈</div>
+      <div><div class="s-name">STRATUS</div><div class="s-role">Estrategista de Dados · IA ACELERA 2026 · Head Coach Virtual · 32 Semanas · Duplos/Triplos</div></div>
+    </div>
+    <div class="hero-quote">"Dados não mentem. Volume constrói. Intensidade revela. Executa."</div>
+  </div>
+</div>
+
+<!-- CALENDÁRIO -->
+<div class="pane active" id="pane-calendario">
+  <div class="sec-label" style="margin-top:0">Calendário Completo — Mai a Dez 2026</div>
+  <div class="cal-box">
+    <div class="cal-nav">
+      <button class="cal-btn" onclick="prevMonth()">‹</button>
+      <div class="cal-mname" id="cal-title"></div>
+      <button class="cal-btn" onclick="nextMonth()">›</button>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-dow">DOM</div><div class="cal-dow">SEG</div><div class="cal-dow">TER</div>
+      <div class="cal-dow">QUA</div><div class="cal-dow">QUI</div><div class="cal-dow">SEX</div><div class="cal-dow">SÁB</div>
+    </div>
+    <div class="cal-grid" id="cal-body" style="margin-top:4px"></div>
+    <div class="cal-leg">
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-swim)"></div>Natação</div>
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-run)"></div>Corrida</div>
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-bike)"></div>Bike</div>
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-brick)"></div>Brick</div>
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-prova)"></div>Prova</div>
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-arr)"></div>Especial</div>
+      <div class="cl-it"><div class="cl-dot" style="background:var(--c-rest)"></div>Descanso</div>
+    </div>
+  </div>
+</div>
+
+<!-- TREINOS -->
+<div class="pane" id="pane-treinos">
+  <div class="wk-bar">
+    <button class="wk-arr" onclick="prevW()">‹</button>
+    <select class="wk-dd" id="wk-dd" onchange="renderWeek(+this.value)"></select>
+    <button class="wk-arr" onclick="nextW()">›</button>
+    <span class="wk-period" id="wk-period"></span>
+    <span class="wk-fb" id="wk-fb"></span>
+    <span class="wk-vol" id="wk-vol"></span>
+  </div>
+  <div class="dias-wrap" id="dias-wrap"></div>
+</div>
+
+<!-- TESTES -->
+<div class="pane" id="pane-testes">
+  <div class="testes-intro"><strong>Testes de campo STRATUS</strong> — 3 baterias ao longo do projeto calibram suas zonas reais. Resultados atualizam todas as sessões subsequentes.</div>
+  <div class="sec-label" style="margin-top:0">Baterias de Testes</div>
+  <div class="tg">
+    <div class="tc sw"><div class="tc-mod">◉ Natação</div><div class="tc-n">Teste 400m Cronometrado</div><div class="tc-d">Define CSS e pace IM. Piscina 25m ou 50m.</div><div class="tc-r"><div class="tc-ri"><strong>B1:</strong> S2 · 27 Mai — baseline</div><div class="tc-ri"><strong>B2:</strong> S8 · 8 Jul — progressão</div><div class="tc-ri"><strong>B3:</strong> S16 · 2 Set — pré-Chicago</div></div></div>
+    <div class="tc ru"><div class="tc-mod">◉ Corrida</div><div class="tc-n">Teste 3km em Pista</div><div class="tc-d">Define LT2, pace maratona alvo e zonas de corrida.</div><div class="tc-r"><div class="tc-ri"><strong>B1:</strong> S3 · 2 Jun — baseline</div><div class="tc-ri"><strong>B2:</strong> S9 · 14 Jul — progressão</div><div class="tc-ri"><strong>B3:</strong> S17 · 8 Set — taper Chicago</div></div></div>
+    <div class="tc bi"><div class="tc-mod">◉ Ciclismo</div><div class="tc-n">Teste FTP 20 min</div><div class="tc-d">FC proxy ou potência. Define zonas bike para bloco IM.</div><div class="tc-r"><div class="tc-ri"><strong>B1:</strong> S3 · 4 Jun — pós-compra bike</div><div class="tc-ri"><strong>B2:</strong> S9 · 16 Jul — pós-base</div><div class="tc-ri"><strong>B3:</strong> S21 · 7 Out — pré-Ironman</div></div></div>
+  </div>
+  <div class="proto-t">Protocolos</div>
+  <div class="pb"><div class="pb-t">Natação 400m <span class="pb-b">Piscina</span></div><div class="pb-s"><div class="pb-si"><strong>AQ:</strong> 400m Z1 + 4×50m prog + 2×25m forte</div><div class="pb-si"><strong>Teste:</strong> 400m contínuo máximo. Pace/100m = Tempo÷4. CSS = pace+5–8s</div><div class="pb-si"><strong>Projeção IM:</strong> pace+10–15s/100m = split Ironman</div></div></div>
+  <div class="pb"><div class="pb-t">Corrida 3km <span class="pb-b">Pista plana</span></div><div class="pb-s"><div class="pb-si"><strong>AQ:</strong> 2km Z1 + 4×100m prog + 2×200m pace alvo</div><div class="pb-si"><strong>Teste:</strong> 3km máximo. Cálculo LT2 = pace×1.05–1.08 = Pace Chicago</div><div class="pb-si"><strong>Zonas:</strong> Z2=LT2+30s | Z3=LT2+15s | Z4=LT2 | Z5=LT2−15s</div></div></div>
+  <div class="pb"><div class="pb-t">FTP Bike 20min <span class="pb-b">Road ou ergométrica</span></div><div class="pb-s"><div class="pb-si"><strong>AQ:</strong> 10min fácil + 3×1min forte + 5min suave</div><div class="pb-si"><strong>Teste:</strong> 20min esforço máximo sustentável. FC=Z4 estável</div><div class="pb-si"><strong>Com potência:</strong> FTP = Wmédio×0.95. Alvo IM: 68–78% FTP (Z2)</div></div></div>
+</div>
+
+<!-- NUTRIÇÃO -->
+<div class="pane" id="pane-nutricao">
+  <div class="nutri-holder">
+    <div class="nutri-sym">🥗</div>
+    <div class="nutri-h">Módulo Nutrição</div>
+    <div class="nutri-p">Reservado para o plano nutricional completo do Projeto ACELERA 2026. Em breve: carboidratos por fase, hidratação no calor de Orlando, estratégia de race day Chicago e Ironman Florida.</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.15em;margin-top:8px;">EM CONSTRUÇÃO · STRATUS ◈</div>
+  </div>
+</div>
+
+<!-- IA -->
+<div class="pane" id="pane-ia">
+  <div class="ia-hd"><div class="ia-sym">◈</div><div><div class="ia-hn">STRATUS</div><div class="ia-hr">Estrategista de Dados · IA ACELERA 2026 · 32 Semanas · Duplos/Triplos</div></div></div>
+  <div class="ia-chips">
+    <span class="ia-chip" onclick="iaChip(this.textContent)">Estratégia Chicago 2h42</span>
+    <span class="ia-chip" onclick="iaChip(this.textContent)">Treinos duplos — como gerir fadiga</span>
+    <span class="ia-chip" onclick="iaChip(this.textContent)">27 dias Chicago → Ironman</span>
+    <span class="ia-chip" onclick="iaChip(this.textContent)">Natação — recuperar form rápido</span>
+    <span class="ia-chip" onclick="iaChip(this.textContent)">Carga S14 — longão 38km</span>
+    <span class="ia-chip" onclick="iaChip(this.textContent)">Nutrição de prova Ironman</span>
+  </div>
+  <div class="ia-msgs" id="ia-msgs">
+    <div class="msg ai"><div class="m-av ai">◈</div><div class="m-bub"><strong>STRATUS online.</strong><br><br>Robson, contextualizado. Plano ACELERA 2026 com 32 semanas, duplos e triplos a partir da F2. Chicago 11 Out (2h40–2h45), Ironman 8 Nov (sub 9h45). Zonas FC: Z1:90–114 · Z2:114–133 · Z3:133–152 · Z4:152–171 · Z5:171–190. Fala.</div></div>
+  </div>
+  <div class="ia-typing" id="ia-typing"><div class="ia-dots"><span>◈</span><span>◈</span><span>◈</span></div>&nbsp;STRATUS processando...</div>
+  <div class="ia-row">
+    <textarea class="ia-in" id="ia-in" rows="2" placeholder="Pergunta para STRATUS..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();iaEnviar();}"></textarea>
+    <button class="ia-btn" id="ia-btn" onclick="iaEnviar()">ENVIAR</button>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div class="pane" id="pane-feedback">
+  <div class="sec-label" style="margin-top:0">Check-in Semanal</div>
+  <div class="fb-form">
+    <div class="fb-q"><label>Semana</label><select id="fb-sem"></select></div>
+    <div class="fb-q"><label>Volume completado</label><select id="fb-vol"><option>100% — tudo executado</option><option>80–99% — quase tudo</option><option>60–79% — 1–2 sessões perdidas</option><option>&lt;60% — semana comprometida</option></select></div>
+    <div class="fb-q"><label>Fadiga (1=ótimo · 5=esgotado)</label><select id="fb-fad"><option value="1">1 — Ótimo</option><option value="2">2 — Bem</option><option value="3">3 — Cansado funcional</option><option value="4">4 — Pesado</option><option value="5">5 — Esgotado</option></select></div>
+    <div class="fb-q"><label>Sono</label><select id="fb-sono"><option>Excelente 7–8h</option><option>Bom 6–7h</option><option>Regular 5–6h</option><option>Ruim &lt;5h</option></select></div>
+    <div class="fb-q"><label>Natação</label><select id="fb-sw"><option>Fluiu bem</option><option>Ok, técnica difícil</option><option>Pesado</option><option>Não nadei</option></select></div>
+    <div class="fb-q"><label>Dores / Desconfortos</label><textarea id="fb-dor" placeholder="Localização e intensidade. 'Nenhum' se ok."></textarea></div>
+    <div class="fb-q"><label>Observações livres</label><textarea id="fb-obs" placeholder="Contexto, calor, viagem, estresse..."></textarea></div>
+    <button class="fb-sub" onclick="fbEnviar()">ENVIAR PARA STRATUS ▸</button>
+    <div class="fb-resp" id="fb-resp"></div>
+  </div>
+</div>
+
+<!-- PROVAS -->
+<div class="pane" id="pane-provas">
+  <div class="sec-label" style="margin-top:0">Radar de Provas 2026</div>
+  <div class="pv-grid">
+    <div class="pv-card a"><div class="pv-dt">13 SET 2026 · NICE, FRANCE · S18</div><div class="pv-n">70.3 Nice — World Champs</div><div class="pv-d">Swim 1.9km · Bike 90km · Run 21.1km</div><span class="pv-badge bg-a">✓ Prova B · Curtir</span></div>
+    <div class="pv-card a"><div class="pv-dt">11 OUT 2026 · CHICAGO, IL · S22</div><div class="pv-n">Bank of America Chicago Marathon</div><div class="pv-d">42.195km · Meta 2h40–2h45 · Pace 3:47–3:54/km</div><span class="pv-badge bg-a">✓ PROVA A</span></div>
+    <div class="pv-card a"><div class="pv-dt">8 NOV 2026 · PANAMA CITY, FL · S26</div><div class="pv-n">Ironman Florida</div><div class="pv-d">3.8km + 180km + 42.2km · Meta Sub 9h45</div><span class="pv-badge bg-a">✓ PROVA A · 27d pós-Chicago</span></div>
+    <div class="pv-card a"><div class="pv-dt">13 DEZ 2026 · HAINES CITY, FL · S31</div><div class="pv-n">70.3 Haines City</div><div class="pv-d">70.3mi · Encerramento do ciclo 2026</div><span class="pv-badge bg-a">✓ Prova B</span></div>
+    <div class="pv-card b"><div class="pv-dt">JUL 2026 · CLERMONT, FL</div><div class="pv-n">Triathlon local Clermont</div><div class="pv-d">Distâncias variadas · NTC</div><span class="pv-badge bg-b">⚑ Verificar</span></div>
+    <div class="pv-card b"><div class="pv-dt">AGO 2026 · FLORIDA</div><div class="pv-n">70.3 ou Oly como prova de calibração</div><div class="pv-d">Bloco pré-Chicago · avaliar em jun</div><span class="pv-badge bg-b">⚑ Opcional</span></div>
+  </div>
+</div>
+
+<!-- PAINEL -->
+<div class="pane" id="pane-painel">
+  <div class="sec-label" style="margin-top:0">Resumo do Projeto</div>
+  <div class="painel-g">
+    <div class="pm" onclick="openMM('chicago')"><div class="pm-l">Meta Chicago</div><div class="pm-v" style="color:#922b21">2h42</div><div class="pm-s">11 Out · S22 · Pace 3:52/km</div></div>
+    <div class="pm" onclick="openMM('ironman')"><div class="pm-l">Meta Ironman FL</div><div class="pm-v" style="color:#1a3a5c">9h45</div><div class="pm-s">8 Nov · S26 · 27d pós-Chicago</div></div>
+    <div class="pm" onclick="openMM('volume')"><div class="pm-l">Volume Pico</div><div class="pm-v" style="color:#1d4a2a">22h</div><div class="pm-s">S24 · Bloco IM · duplos diários</div></div>
+    <div class="pm" onclick="openMM('semanas')"><div class="pm-l">Total Semanas</div><div class="pm-v" style="color:#4a1d6e">32</div><div class="pm-s">15 Mai – 24 Dez 2026 · 6 Fases</div></div>
+    <div class="pm" onclick="openMM('corrida')"><div class="pm-l">Pico Corrida</div><div class="pm-v" style="color:#7a3a10">38km</div><div class="pm-s">S14 · 14–20 Ago · longão pico</div></div>
+    <div class="pm" onclick="openMM('risco')"><div class="pm-l">Chicago → IM</div><div class="pm-v" style="color:var(--gold)">27d</div><div class="pm-s">Gestão crítica · recovery ativa</div></div>
+  </div>
+  <div class="chart-box"><div class="chart-t">Volume relativo por semana — 32 semanas</div><div class="vol-c" id="vol-c"></div></div>
+  <div class="sec-label">Fases</div>
+  <div class="fases-list">
+    <div class="fase-r"><div class="fase-c" style="background:var(--f1)"></div><div class="fase-t"><strong>F1 S1–S4 (15 Mai–11 Jun):</strong> Adaptação Orlando, calor, bike, retomada natação. 1 sessão/dia crescente.</div></div>
+    <div class="fase-r"><div class="fase-c" style="background:var(--f2)"></div><div class="fase-t"><strong>F2 S5–S8 (12 Jun–9 Jul):</strong> Base triathlon. Duplos 3–4x/sem. Testes campo bateria 1.</div></div>
+    <div class="fase-r"><div class="fase-c" style="background:var(--f3)"></div><div class="fase-t"><strong>F3 S9–S16 (10 Jul–3 Set):</strong> Específico Chicago + Nice. Duplos 4–5x/sem. Longões 30→38km. Pico 95km cort./sem (S14).</div></div>
+    <div class="fase-r"><div class="fase-c" style="background:var(--f4)"></div><div class="fase-t"><strong>F4 S17–S21 (4 Set–8 Out):</strong> Taper Chicago, Nice 70.3 (13 Set), CHICAGO (11 Out), recovery 27d.</div></div>
+    <div class="fase-r"><div class="fase-c" style="background:var(--f5)"></div><div class="fase-t"><strong>F5 S22–S28 (9 Out–26 Nov):</strong> Bloco IM. Duplos diários. Bike 4–5h. Bricks longos. IRONMAN FL (8 Nov).</div></div>
+    <div class="fase-r"><div class="fase-c" style="background:var(--f6)"></div><div class="fase-t"><strong>F6 S29–S32 (27 Nov–24 Dez):</strong> Recovery pós-IM. Haines 70.3 (13 Dez). Transição 2027.</div></div>
+  </div>
+</div>
+
+<!-- AÇÕES -->
+<div class="pane" id="pane-acoes">
+  <div class="sec-label" style="margin-top:0">Ações Prioritárias</div>
+  <div class="acoes-l" id="acoes-l"></div>
+</div>
+
+<!-- MODAL CAL DAY -->
+<div class="cdm-overlay" id="cdm" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="cdm-box" id="cdm-box"></div>
+</div>
+
+<!-- MODAL MÉTRICA -->
+<div class="mm-ov" id="mm" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+  <div class="mm-box"><button class="mm-x" onclick="document.getElementById('mm').style.display='none'">✕</button><div id="mm-cnt"></div></div>
+</div>
+
+<script>
+// ══ UTILS ══
+function showPane(id,el){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pane-'+id).classList.add('active');
+  if(el&&!el.classList.contains('soon'))el.classList.add('active');
+}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+const M_NAMES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const DOW_NAMES=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+function fmtDate(d){return`${d.getDate()} ${M_NAMES[d.getMonth()]}`;}
+function dateKey(d){return`${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;}
+
+const START=new Date(2026,4,15); // 15 Mai 2026
+const TC={swim:'#3b82f6',run:'#22c55e',bike:'#f59e0b',brick:'#ec4899',rest:'#94a3b8',prova:'#c9a84c',arr:'#7c3aed'};
+const TK={swim:'swim',run:'run',bike:'bike',brick:'brick',rest:'rest',prova:'prova',arr:'arr'};
+const TL={swim:'SWIM',run:'RUN',bike:'BIKE',brick:'BRICK',rest:'REST',prova:'PROVA',arr:'CHEGADA'};
+
+// ══ DEFINIÇÃO DAS 32 SEMANAS COM DUPLOS/TRIPLOS REAIS ══
+// Estrutura: cada semana tem volume (horas), fase, label, e 7 dias
+// Cada dia tem array de sessões (duplos/triplos)
+// Sessão: {tipo, label, detail, chips}
+const SEMANAS=[
+// ─────── FASE 1 — ADAPTAÇÃO ───────
+{num:1,fase:1,label:'Chegada + Instalação',vol:'8–10h',dias:[
+  {ss:[{tp:'arr',lb:'Chegada Orlando',dt:'Voo, instalação, descanso total.',ch:['chegada FL']}]},
+  {ss:[{tp:'arr',lb:'Setup + Caminhada',dt:'Organização casa, compras. Caminhada 30min leve.',ch:['30min','Z1']}]},
+  {ss:[{tp:'run',lb:'1ª Corrida em Orlando',dt:'40min Z1–Z2. Explorar rotas planas. Sentir o calor de FL.',ch:['40min','Z1-Z2','FC<133']}]},
+  {ss:[{tp:'swim',lb:'Retomada Natação',dt:'Piscina: 800m fácil Z1. Sentir a água, sem pressão.',ch:['800m','Z1','técnica']}]},
+  {ss:[{tp:'run',lb:'Corrida + Mobilidade',dt:'45min Z2. Depois: 15min mobilidade cadeia posterior.',ch:['45min','Z2']},{tp:'swim',lb:'Técnica Curta (tarde)',dt:'600m drills. Respiração bilateral, posição do braço.',ch:['600m','drills']}]},
+  {ss:[{tp:'bike',lb:'Bike — 1ª Saída',dt:'60min Z1–Z2. Terreno plano Clermont ou ergométrica. Conhecer bike.',ch:['60min','Z1-Z2']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Sono 8h+. Hidratação. Mobilidade leve.',ch:['REST']}]},
+]},
+{num:2,fase:1,label:'Base Aeróbica + Bike',vol:'10–12h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Técnica',dt:'1400m. 400m Z1 + 6×100m drill + 400m Z2.',ch:['1400m','drills','técnica']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2',dt:'50min Z2 contínuo. FC 114–133.',ch:['50min','Z2']},{tp:'swim',lb:'Natação Tarde',dt:'TESTE 400m informal — B1 não oficial. Notar pace.',ch:['400m','pace informal']}]},
+  {ss:[{tp:'bike',lb:'Bike Volume',dt:'90min Z2. Cadência 85–95rpm.',ch:['90min','Z2','cad.85-95']}]},
+  {ss:[{tp:'swim',lb:'Natação Série Z2–Z3',dt:'AQ 400m + 6×200m Z3 (25s desc) + 200m VF.',ch:['2000m','6×200m Z3']},{tp:'run',lb:'Run Tarde Z2',dt:'35min Z2. Brick informal, treinar T1 mental.',ch:['35min','Z2']}]},
+  {ss:[{tp:'run',lb:'Fartlek',dt:'45min: 10Z1 + 5×(3min Z3/2min Z1) + 10Z1.',ch:['45min','fartlek','Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike + Run Brick',dt:'80min bike Z2 + 25min run Z2. Transição T2.',ch:['80min bike','25min run','T2']},{tp:'swim',lb:'Swim Tarde (opcional)',dt:'800m Z1 técnico se piscina acessível.',ch:['800m','Z1']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Descanso completo. Sono 8h.',ch:['REST']}]},
+]},
+{num:3,fase:1,label:'Testes Bateria 1',vol:'10–12h',dias:[
+  {ss:[{tp:'swim',lb:'Swim Fácil',dt:'1200m Z1. Recuperação pré-testes.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'swim',lb:'TESTE 400m Natação — B1',dt:'AQ 400m + TESTE 400m pace máximo + 400m VF. Cronometrar e registrar FC média.',ch:['TESTE','400m','B1','cronometrar']}]},
+  {ss:[{tp:'run',lb:'TESTE 3km — B1',dt:'AQ 2km + 4×100m progressivo + TESTE 3km esforço máximo + 1km VF. Registrar tempo e FC.',ch:['TESTE','3km','B1','FC máx']},{tp:'bike',lb:'Recuperação Bike',dt:'40min Z1 solto. Desentorpecer após teste de run.',ch:['40min','Z1','flush']}]},
+  {ss:[{tp:'bike',lb:'TESTE FTP 20min — B1',dt:'AQ 20min completo + TESTE 20min esforço máximo sustentável + 15min Z1. FC média = seu limiar.',ch:['TESTE','FTP','B1','FC limiar']}]},
+  {ss:[{tp:'swim',lb:'Natação Leve + Técnica',dt:'1400m. 400m Z1 + 8×100m técnica (respiração, pull) + 400m VF.',ch:['1400m','técnica','Z1']}]},
+  {ss:[{tp:'run',lb:'Longão Z2',dt:'80min Z2. Pace calibrado pelo resultado do teste 3km.',ch:['80min','Z2','pace calibrado']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Análise dos testes com STRATUS. Sono.',ch:['REST','análise testes']}]},
+]},
+{num:4,fase:1,label:'Base + Adaptação Calor',vol:'11–13h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'1800m. 4×400m Z2 (45s desc).',ch:['1800m','4×400m','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z3',dt:'AQ 2km + 6×800m Z3 (90s desc) + 2km VF.',ch:['11km','6×800m Z3']},{tp:'swim',lb:'Natação Tarde Técnica',dt:'1000m Z1. Drills. Ativar sem forçar.',ch:['1000m','drills']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa',dt:'2h Z2. Nutrição: 40g carbo/h. Calor — sair 6h da manhã.',ch:['2h','Z2','40g carbo/h','calor']}]},
+  {ss:[{tp:'swim',lb:'Natação Série Z3',dt:'2000m. AQ 400m + 8×100m Z3 (15s desc) + 600m VF.',ch:['2000m','8×100m Z3']},{tp:'run',lb:'Corrida Calor',dt:'40min Z2 no calor do meio-dia para adaptar termorreg.',ch:['40min','Z2','calor']}]},
+  {ss:[{tp:'run',lb:'Médio Z3',dt:'65min: 15min Z1 + 35min Z3 + 15min Z1.',ch:['65min','35min Z3']}]},
+  {ss:[{tp:'brick',lb:'Brick B+R',dt:'90min bike Z2 + 30min run Z2. T2.',ch:['90min bike','30min run','T2']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Descanso. Hidratação. Sono 8h.',ch:['REST']}]},
+]},
+// ─────── FASE 2 — BASE TRIATHLON ───────
+{num:5,fase:2,label:'Base Triathlon S1',vol:'13–15h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'2000m. 5×400m Z2 (45s desc). Manter pace consistente.',ch:['2000m','5×400m','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z4',dt:'AQ 3km + 6×1km Z4 (2min desc) + 2km VF. FC 152–171.',ch:['13km','6×1km Z4']},{tp:'swim',lb:'Natação Tarde',dt:'1200m Z1–Z2. Técnica braçada. Flush.',ch:['1200m','técnica']}]},
+  {ss:[{tp:'bike',lb:'Bike Intervalo',dt:'2h. 30min Z2 + 4×10min Z3 (5min Z2) + 30min Z2.',ch:['2h','4×10min Z3']},{tp:'run',lb:'Run Tarde Z2',dt:'30min Z2 imediato pós-bike. T2 treino.',ch:['30min','Z2','T2']}]},
+  {ss:[{tp:'swim',lb:'Natação Longa',dt:'2400m. 6×400m Z2 (45s desc).',ch:['2400m','6×400m']},{tp:'run',lb:'Médio Z3 Tarde',dt:'50min: 10Z1 + 30min Z3 + 10Z1.',ch:['50min','30min Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Recuperação',dt:'60min Z1. Flush suave.',ch:['60min','Z1','flush']},{tp:'swim',lb:'Natação Técnica',dt:'1000m Z1 fácil. Posição corpo, kick.',ch:['1000m','técnica']}]},
+  {ss:[{tp:'run',lb:'Longão 24km',dt:'24km Z2. Pace: pace Chicago +40s. Gel a cada 45min.',ch:['24km','Z2','gel 45min']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Descanso completo. Sono 8h+.',ch:['REST']}]},
+]},
+{num:6,fase:2,label:'Base Triathlon S2',vol:'14–16h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Série Z3',dt:'2200m. AQ 400m + 10×100m Z3 (15s) + 800m VF.',ch:['2200m','10×100m Z3']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z3–Z4',dt:'AQ 3km + 4×2km Z3 (2min desc) + 2km VF.',ch:['13km','4×2km Z3']},{tp:'swim',lb:'Natação Tarde',dt:'1400m Z2. Drills e técnica.',ch:['1400m','Z2','drills']}]},
+  {ss:[{tp:'bike',lb:'Bike Tempo',dt:'2h15. 30min Z2 + 60min Z3 (FC 133–152) + 30min Z2.',ch:['2h15','60min Z3']},{tp:'run',lb:'Corrida Tarde',dt:'25min Z2 após bike. Brick.',ch:['25min','Z2','brick']}]},
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'2600m. 4×600m Z2 (1min desc).',ch:['2600m','4×600m']},{tp:'run',lb:'Médio Z3',dt:'60min: 15Z1 + 35min Z3 + 10Z1.',ch:['60min','35min Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2 + Swim',dt:'75min Z2.',ch:['75min','Z2']},{tp:'swim',lb:'Tarde: Técnica',dt:'1200m Z1. Posição, pull, kick.',ch:['1200m','técnica']}]},
+  {ss:[{tp:'brick',lb:'Brick Longo',dt:'2h bike Z2 + 35min run Z2. Nutrição na bike.',ch:['2h bike','35min run','nutrição']}]},
+  {ss:[{tp:'run',lb:'Longão 26km',dt:'26km Z2. Gel 45min. Hidratação cuidadosa.',ch:['26km','Z2','gel']}]},
+]},
+{num:7,fase:2,label:'Base Triathlon S3',vol:'15–17h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Longa',dt:'2800m. 7×400m Z2 (45s desc).',ch:['2800m','7×400m']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z4',dt:'AQ 3km + 8×800m Z4 (90s desc) + 2km VF. FC 152–171.',ch:['13km','8×800m Z4']},{tp:'swim',lb:'Natação Tarde',dt:'1400m Z2. Série 7×100m Z2.',ch:['1400m','Z2']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa',dt:'2h30 Z2. Cadência 90rpm. 50g carbo/h.',ch:['2h30','Z2','50g carbo/h']},{tp:'run',lb:'Tarde: Run Fácil',dt:'20min Z1. Flush pernas pós-bike longa.',ch:['20min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3–Z4',dt:'2400m. AQ 400m + 6×200m Z4 (30s) + 4×100m Z3 + 400m VF.',ch:['2400m','mista Z3-Z4']},{tp:'run',lb:'Médio Z3 Tarde',dt:'65min: 15Z1 + 40min Z3 + 10Z1.',ch:['65min','40min Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Intervalo',dt:'2h. 4×12min Z3 (6min Z2) em base Z2.',ch:['2h','4×12min Z3']},{tp:'swim',lb:'Técnica Tarde',dt:'1000m Z1. Drills kick.',ch:['1000m','drills']}]},
+  {ss:[{tp:'brick',lb:'Brick Z3',dt:'2h15 bike Z2–Z3 + 35min run Z3. Sentir limiar.',ch:['2h15','35min Z3','brick']}]},
+  {ss:[{tp:'run',lb:'Longão 28km',dt:'28km Z2. Pace Chicago +40s. Gel 40min.',ch:['28km','Z2','gel 40min']}]},
+]},
+{num:8,fase:2,label:'Base Triathlon S4 + Testes B2',vol:'13–15h',dias:[
+  {ss:[{tp:'swim',lb:'TESTE 400m — B2',dt:'AQ 400m + TESTE 400m pace máximo. Comparar evolução vs B1.',ch:['TESTE','400m','B2','evolução']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2',dt:'45min Z2 suave pré-testes pesados.',ch:['45min','Z2']},{tp:'swim',lb:'Natação Leve',dt:'1000m Z1. Recuperação.',ch:['1000m','Z1']}]},
+  {ss:[{tp:'run',lb:'TESTE 3km — B2',dt:'AQ 2km + TESTE 3km. Esperar evolução de pace vs B1.',ch:['TESTE','3km','B2']},{tp:'bike',lb:'Recuperação',dt:'30min Z1 pós-teste.',ch:['30min','Z1']}]},
+  {ss:[{tp:'bike',lb:'TESTE FTP — B2',dt:'AQ 20min + TESTE 20min máximo. FC média = novo limiar.',ch:['TESTE','FTP','B2']}]},
+  {ss:[{tp:'swim',lb:'Natação Fácil',dt:'1400m Z1. Recuperação pós-testes.',ch:['1400m','Z1']},{tp:'run',lb:'Tarde Z1',dt:'30min Z1 muito leve.',ch:['30min','Z1']}]},
+  {ss:[{tp:'brick',lb:'Brick Volume',dt:'2h15 bike Z2 + 40min run Z2.',ch:['2h15','40min run']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Semana com testes — descanso completo.',ch:['REST']}]},
+]},
+// ─────── FASE 3 — ESPECÍFICO CHICAGO ───────
+{num:9,fase:3,label:'Específico Chicago S1',vol:'16–18h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'2800m. 7×400m Z2–Z3 (45s desc).',ch:['2800m','7×400m Z2-Z3']},{tp:'run',lb:'Run Tarde Z2',dt:'30min Z2 leve.',ch:['30min','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z4',dt:'AQ 3km + 8×1km Z4 (90s desc) + 2km VF. FC 152–171.',ch:['14km','8×1km Z4']},{tp:'swim',lb:'Natação Tarde',dt:'1600m. 8×100m Z3 (15s) + 800m VF.',ch:['1600m','8×100m Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Tempo',dt:'2h30. 30min Z2 + 75min Z3 (FC 133–152) + 30min Z2.',ch:['2h30','75min Z3']},{tp:'run',lb:'Tarde: Pernas',dt:'20min Z1 flush.',ch:['20min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Longa',dt:'3000m. 5×600m Z2 (1min desc).',ch:['3000m','5×600m']},{tp:'run',lb:'Médio Rápido Tarde',dt:'75min: 15Z1 + 50min Z3 (ritmo marat. ou mais rápido) + 10Z1.',ch:['75min','50min Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2 + Swim',dt:'2h Z2.',ch:['2h','Z2']},{tp:'swim',lb:'Tarde Técnica',dt:'1400m Z1. Técnica.',ch:['1400m','técnica']}]},
+  {ss:[{tp:'run',lb:'TESTE 3km — B2',dt:'AQ 2km + TESTE 3km. Verificar evolução.',ch:['TESTE','3km','B2']}]},
+  {ss:[{tp:'run',lb:'Longão 30km',dt:'30km Z2. Pace Chicago +35s. Gel 40min. Hidratação cuidadosa.',ch:['30km','Z2','gel 40min']}]},
+]},
+{num:10,fase:3,label:'Específico Chicago S2',vol:'17–19h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Série Z3',dt:'3000m. 6×500m Z3 (45s desc).',ch:['3000m','6×500m Z3']},{tp:'run',lb:'Tarde Z2',dt:'35min Z2.',ch:['35min','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Longo Z3–Z4',dt:'AQ 3km + 5×2km Z3–Z4 (2min desc) + 2km VF.',ch:['17km','5×2km Z3-Z4']},{tp:'swim',lb:'Natação Tarde',dt:'1600m. 8×100m Z4 (15s) + 800m VF.',ch:['1600m','Z4']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa',dt:'3h Z2. 55g carbo/h. Sair cedo por causa do calor.',ch:['3h','Z2','55g carbo/h']},{tp:'run',lb:'Run Tarde Brick',dt:'25min Z2 imediato.',ch:['25min','Z2','T2']}]},
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'3200m. 8×400m Z2 (45s desc).',ch:['3200m','8×400m']},{tp:'run',lb:'Tempo Run 10km',dt:'AQ 2km + 10km pace limiar (LT2) + 2km VF.',ch:['14km','10km tempo LT2']}]},
+  {ss:[{tp:'bike',lb:'Bike Intervalo',dt:'2h15. 5×10min Z3–Z4 (5min Z2) em base Z2.',ch:['2h15','5×10min Z3-Z4']},{tp:'swim',lb:'Tarde Técnica',dt:'1200m Z1.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'brick',lb:'Brick Z3',dt:'2h30 bike Z2–Z3 + 40min run Z3. Limiar.',ch:['2h30','40min Z3','brick']}]},
+  {ss:[{tp:'run',lb:'Longão 32km',dt:'32km Z2. Gel 40min. Simular nutrição completa de Chicago.',ch:['32km','Z2','nutrição']}]},
+]},
+{num:11,fase:3,label:'Específico Chicago S3',vol:'17–19h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Longa',dt:'3200m. 4×800m Z2 (1min desc).',ch:['3200m','4×800m']},{tp:'run',lb:'Tarde Z2',dt:'35min Z2.',ch:['35min','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z4',dt:'AQ 3km + 10×1km Z4 (90s desc) + 2km VF.',ch:['18km','10×1km Z4']},{tp:'swim',lb:'Natação Tarde',dt:'1800m. 9×100m Z4 + 900m VF.',ch:['1800m','Z4']}]},
+  {ss:[{tp:'bike',lb:'Bike Tempo',dt:'3h. 45min Z2 + 90min Z3 + 30min Z2.',ch:['3h','90min Z3']},{tp:'run',lb:'Tarde Z1',dt:'20min Z1.',ch:['20min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'3000m. 5×600m Z3 (1min desc).',ch:['3000m','5×600m Z3']},{tp:'run',lb:'Tempo Run 12km',dt:'AQ 2km + 12km LT2 + 2km VF.',ch:['16km','12km LT2']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'2h15 Z2.',ch:['2h15','Z2']},{tp:'swim',lb:'Tarde Técnica',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'run',lb:'Médio Rápido',dt:'90min: 20Z1 + 60min Z3 + 10Z1.',ch:['90min','60min Z3']}]},
+  {ss:[{tp:'run',lb:'Longão 33km',dt:'33km Z2. Gel 40min. Pace Chicago +30s.',ch:['33km','Z2','gel']}]},
+]},
+{num:12,fase:3,label:'Específico Chicago S4',vol:'18–20h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Série Mista',dt:'3200m. AQ 400m + 4×200m Z4 + 6×200m Z3 + 800m VF.',ch:['3200m','mista Z3-Z4']},{tp:'run',lb:'Tarde Z2',dt:'35min Z2.',ch:['35min','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z4–Z5',dt:'AQ 3km + 6×1km Z4 + 6×400m Z5 (2min desc) + 2km VF.',ch:['16km','Z4+Z5']},{tp:'swim',lb:'Natação Tarde',dt:'1800m Z3. 9×200m Z3.',ch:['1800m','Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa',dt:'3h15 Z2. 60g carbo/h.',ch:['3h15','Z2','60g carbo/h']},{tp:'run',lb:'Tarde Brick',dt:'30min Z2.',ch:['30min','Z2','T2']}]},
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'3400m. 4×800m Z2 + 600m VF.',ch:['3400m','4×800m']},{tp:'run',lb:'Tempo Run 13km',dt:'AQ 2km + 13km LT2 + 2km VF.',ch:['17km','13km LT2']}]},
+  {ss:[{tp:'bike',lb:'Bike Intervalo',dt:'2h30. 6×10min Z3–Z4 (5min Z2).',ch:['2h30','6×10min Z3-Z4']},{tp:'swim',lb:'Tarde Z1',dt:'1200m Z1.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'brick',lb:'Brick Longo Z3',dt:'2h45 bike Z2–Z3 + 45min run Z3.',ch:['2h45','45min Z3']}]},
+  {ss:[{tp:'run',lb:'Longão 34km',dt:'34km Z2. Gel 40min.',ch:['34km','Z2']}]},
+]},
+{num:13,fase:3,label:'Específico Chicago S5',vol:'18–21h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Longa',dt:'3400m. 5×600m Z2–Z3 + 400m VF.',ch:['3400m','5×600m']},{tp:'run',lb:'Tarde Z2',dt:'40min Z2.',ch:['40min','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Misto Z4',dt:'AQ 3km + 4×2km Z3–Z4 (2min) + 4×400m Z5 + 2km VF.',ch:['17km','misto Z4-Z5']},{tp:'swim',lb:'Natação Tarde',dt:'2000m. 10×100m Z4 (15s) + 1000m VF.',ch:['2000m','10×100m Z4']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa',dt:'3h30 Z2. 60g carbo/h. Sair às 5h30 por causa do calor.',ch:['3h30','Z2','cedo calor']},{tp:'run',lb:'Tarde Brick',dt:'30min Z2.',ch:['30min','Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'3200m. 8×400m Z3 (45s desc).',ch:['3200m','8×400m Z3']},{tp:'run',lb:'Tempo Run 14km',dt:'AQ 2km + 14km LT2 + 2km VF.',ch:['18km','14km LT2']}]},
+  {ss:[{tp:'bike',lb:'Bike Tempo',dt:'2h30. 30min Z2 + 90min Z3 + 30min Z2.',ch:['2h30','90min Z3']},{tp:'swim',lb:'Tarde Leve',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'run',lb:'Médio Rápido',dt:'95min: 20Z1 + 65min Z3 + 10Z1.',ch:['95min','65min Z3']}]},
+  {ss:[{tp:'run',lb:'Longão 35km',dt:'35km Z2. Gel 40min. Último longão antes do pico.',ch:['35km','Z2','gel']}]},
+]},
+{num:14,fase:3,label:'PICO VOLUME CHICAGO — S14',vol:'20–22h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'3600m. 6×600m Z2–Z3 (45s desc).',ch:['3600m','6×600m']},{tp:'run',lb:'Tarde Z2',dt:'40min Z2.',ch:['40min','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Z4 — Duro',dt:'AQ 3km + 12×1km Z4 (90s desc) + 2km VF.',ch:['20km','12×1km Z4']},{tp:'swim',lb:'Natação Tarde',dt:'2000m. 10×100m Z4 (15s) + 1000m VF.',ch:['2000m','Z4']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa',dt:'3h30 Z2. 65g carbo/h.',ch:['3h30','Z2','65g carbo/h']},{tp:'run',lb:'Tarde Brick Z2',dt:'35min Z2.',ch:['35min','Z2','T2']}]},
+  {ss:[{tp:'swim',lb:'Natação Longa',dt:'3800m. 4×800m Z2 + 2×400m Z3 + 600m VF.',ch:['3800m','mista']},{tp:'run',lb:'Tempo Run 15km',dt:'AQ 2km + 15km LT2 (ritmo exato Chicago) + 2km VF.',ch:['19km','15km LT2','pace Chicago']}]},
+  {ss:[{tp:'bike',lb:'Bike Intervalo',dt:'2h45. 7×10min Z3–Z4 (5min Z2).',ch:['2h45','7×10min Z3-Z4']},{tp:'swim',lb:'Tarde Técnica',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'run',lb:'Médio Rápido PICO',dt:'100min: 20Z1 + 70min Z3 rápido + 10Z1.',ch:['100min','70min Z3','pico']}]},
+  {ss:[{tp:'run',lb:'LONGÃO 38km — PICO MÁXIMO',dt:'38km Z2. Pace Chicago +30s (~4:20–4:30/km). Gel a cada 35–40min. Simulação real de race day nutrição.',ch:['38km','Z2','gel 35min','simulação']}]},
+]},
+{num:15,fase:3,label:'Redução Pós-Pico',vol:'16–18h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Técnica',dt:'2600m. 400m Z1 + 6×200m Z3 + drills + 800m VF.',ch:['2600m','técnica','Z3']}]},
+  {ss:[{tp:'run',lb:'Intervalado Moderado',dt:'AQ 3km + 6×1km Z4 (2min desc) + 2km VF.',ch:['13km','6×1km Z4']},{tp:'swim',lb:'Tarde Z2',dt:'1600m Z2.',ch:['1600m','Z2']}]},
+  {ss:[{tp:'bike',lb:'Bike Moderada',dt:'2h30 Z2.',ch:['2h30','Z2']},{tp:'run',lb:'Tarde Z1',dt:'20min Z1.',ch:['20min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'3000m. 5×600m Z2.',ch:['3000m','5×600m']},{tp:'run',lb:'Médio Z3',dt:'75min: 15Z1 + 50min Z3 + 10Z1.',ch:['75min','50min Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'2h Z2.',ch:['2h','Z2']},{tp:'swim',lb:'Tarde Leve',dt:'1200m Z1.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'brick',lb:'Brick Z2',dt:'2h bike Z2 + 35min run Z2.',ch:['2h bike','35min run']}]},
+  {ss:[{tp:'run',lb:'Longão 30km',dt:'30km Z2. Redução planejada de volume.',ch:['30km','Z2','redução']}]},
+]},
+{num:16,fase:3,label:'Taper Inicial Chicago',vol:'14–16h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Leve',dt:'2000m Z2. Sem esforço máximo.',ch:['2000m','Z2']}]},
+  {ss:[{tp:'run',lb:'Sharpening Z4',dt:'AQ 2km + 5×1km Z4 (2min desc) + 2km VF.',ch:['11km','5×1km Z4','sharp']},{tp:'swim',lb:'Tarde Técnica',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'2h Z2.',ch:['2h','Z2']},{tp:'run',lb:'Tarde Z1',dt:'20min Z1.',ch:['20min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'2400m. 6×400m Z3.',ch:['2400m','6×400m Z3']},{tp:'run',lb:'Médio Leve',dt:'65min Z2.',ch:['65min','Z2']}]},
+  {ss:[{tp:'bike',lb:'Bike Z1–Z2',dt:'75min leve.',ch:['75min','Z1-Z2']}]},
+  {ss:[{tp:'run',lb:'Longão 24km',dt:'24km Z1–Z2. Volume reduzido.',ch:['24km','Z1-Z2','taper']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Descanso. Sono. Hidratação.',ch:['REST']}]},
+]},
+// ─────── FASE 4 — TAPER CHICAGO ───────
+{num:17,fase:4,label:'Taper Chicago S1',vol:'11–13h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Técnica Leve',dt:'1800m Z2. Técnica apenas.',ch:['1800m','Z2','técnica']}]},
+  {ss:[{tp:'run',lb:'Sharpening',dt:'AQ 2km + 4×1km Z4 (3min) + 2km VF.',ch:['10km','4×1km Z4']},{tp:'swim',lb:'Tarde Leve',dt:'1200m Z1.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Curta',dt:'75min Z2.',ch:['75min','Z2']},{tp:'run',lb:'Run Leve',dt:'25min Z1.',ch:['25min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Z2',dt:'2000m Z2.',ch:['2000m','Z2']},{tp:'run',lb:'Fartlek Leve',dt:'50min. 5×2min Z3 dentro de Z1.',ch:['50min','5×2min Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Z1',dt:'50min Z1. Flush.',ch:['50min','Z1']}]},
+  {ss:[{tp:'run',lb:'Longão 18km',dt:'18km Z1–Z2. Leve e tranquilo.',ch:['18km','Z1-Z2']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Sono. Hidratação.',ch:['REST']}]},
+]},
+{num:18,fase:4,label:'Taper S2 + Nice 70.3',vol:'8–10h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Leve',dt:'1200m Z1. Técnica suave.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'run',lb:'Corrida Curta',dt:'30min Z1–Z2.',ch:['30min','Z1-Z2']}]},
+  {ss:[{tp:'bike',lb:'Bike Leve',dt:'40min Z1.',ch:['40min','Z1']}]},
+  {ss:[{tp:'prova',lb:'70.3 NICE — WORLD CHAMPS',dt:'Nice, France. Swim 1.9km + Bike 90km + Run 21.1km. Prova B — curtir sem pressão de resultado!',ch:['70.3','NICE','PROVA B']}]},
+  {ss:[{tp:'rest',lb:'Recuperação Nice D+1',dt:'Descanso total. Voo de volta. Alimentação.',ch:['REST','D+1 Nice']}]},
+  {ss:[{tp:'run',lb:'Trote Leve',dt:'25min Z1. Ativar sem forçar.',ch:['25min','Z1']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Foco no sono. Fuso horário.',ch:['REST']}]},
+]},
+{num:19,fase:4,label:'Chicago Race Week',vol:'6–8h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Muito Leve',dt:'800m Z1. Manter sensação.',ch:['800m','Z1']}]},
+  {ss:[{tp:'run',lb:'Sharpening Final',dt:'30min: 10Z1 + 2×1km Z4 (4min) + 10Z1.',ch:['30min','2×1km Z4']}]},
+  {ss:[{tp:'bike',lb:'Bike Leve',dt:'35min Z1.',ch:['35min','Z1']}]},
+  {ss:[{tp:'run',lb:'Corrida Muito Leve',dt:'20min Z1. Sentir agilidade das pernas.',ch:['20min','Z1']}]},
+  {ss:[{tp:'rest',lb:'Véspera — Check-in Chicago',dt:'Voo ou hotel. Expo Maratona. Rack. Dormir cedo 21h.',ch:['REST','expo','check-in']}]},
+  {ss:[{tp:'run',lb:'Ativação Pré-Prova',dt:'15min Z1 + 6×100m strides. Destravar as pernas.',ch:['15min','strides']}]},
+  {ss:[{tp:'prova',lb:'CHICAGO MARATHON',dt:'Meta: 2h40–2h45. Pace: 3:47–3:54/km. Largada 7h30. Gel a cada 35–40min. FC Z3–Z4. Estratégia: 1ª metade conservadora (3:52), 2ª metade 3:48.',ch:['CHICAGO','PROVA A','2h42','pace 3:50/km']}]},
+]},
+// ─────── FASE 5 — PICO IRONMAN ───────
+{num:20,fase:5,label:'Recovery Pós-Chicago S1',vol:'5–7h',dias:[
+  {ss:[{tp:'rest',lb:'Descanso Total D+1',dt:'Caminhada curta. Alimentação rica. Sono longo.',ch:['REST','D+1']}]},
+  {ss:[{tp:'rest',lb:'Descanso D+2',dt:'Piscina leve 600m opcional. Mobilidade.',ch:['REST','D+2']}]},
+  {ss:[{tp:'swim',lb:'Swim Muito Leve',dt:'800m Z1. Mobilidade ombros e quadril.',ch:['800m','Z1','mobilidade']}]},
+  {ss:[{tp:'bike',lb:'Bike Flush',dt:'40min Z1. Desentorpecer pernas.',ch:['40min','Z1','flush']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Sono. Análise Chicago com STRATUS.',ch:['REST']}]},
+  {ss:[{tp:'run',lb:'1º Trote Pós-Chicago',dt:'20min Z1. Avaliar pernas. Sem esforço.',ch:['20min','Z1']}]},
+  {ss:[{tp:'swim',lb:'Natação Técnica',dt:'1000m Z1. Soltar ombros e costas.',ch:['1000m','Z1']}]},
+]},
+{num:21,fase:5,label:'Transição IM S1',vol:'10–12h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Retomada',dt:'1800m Z1–Z2. Sentir a água de novo.',ch:['1800m','Z1-Z2']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2',dt:'50min Z2. Pernas se reconectando.',ch:['50min','Z2']},{tp:'swim',lb:'Tarde Z1',dt:'1000m Z1.',ch:['1000m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'2h Z2. Testar como as pernas respondem na bike.',ch:['2h','Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z2',dt:'2200m Z2.',ch:['2200m','Z2']},{tp:'run',lb:'Tarde: Fartlek Leve',dt:'45min. 5×2min Z3 dentro de Z1.',ch:['45min','Z3 leve']}]},
+  {ss:[{tp:'bike',lb:'TESTE FTP — B3',dt:'AQ 20min + TESTE 20min + 15min VF. Comparar B1/B2.',ch:['TESTE','FTP','B3']}]},
+  {ss:[{tp:'brick',lb:'Brick Leve',dt:'90min bike Z2 + 25min run Z2.',ch:['90min','25min run','T2']}]},
+  {ss:[{tp:'run',lb:'Longão Suave',dt:'70min Z1–Z2. Testar pernas no longo.',ch:['70min','Z1-Z2']}]},
+]},
+// S22: começa 9 Out — Chicago foi Dom 11 Out (di=2 = Ter desta semana)
+// Mas Chicago é na S19 (correto: 11 Out = Dom, S22 começa 9 Out = Sex)
+// Revisão: S22 começa 9 Out (Sex). Dia 0=Sex 9, 1=Sab 10, 2=Dom 11 (CHICAGO!)
+{num:22,fase:5,label:'Bloco IM S1 / Chicago Race Day',vol:'5–8h',dias:[
+  {ss:[{tp:'bike',lb:'Bike Flush Pré-Chicago',dt:'30min Z1. Amanhã é a prova.',ch:['30min','Z1','véspera']}]},
+  {ss:[{tp:'rest',lb:'Véspera da Prova',dt:'Descanso total. Expo, hotel. Sono cedo. Carb-loading.',ch:['REST','véspera Chicago']}]},
+  {ss:[{tp:'prova',lb:'CHICAGO MARATHON',dt:'Meta: 2h40–2h45. Pace: 3:47–3:54/km. Largada 7h30. Gel 35min. FC Z3–Z4.',ch:['CHICAGO','PROVA A','2h42']}]},
+  {ss:[{tp:'rest',lb:'D+1 Chicago',dt:'Descanso total. Alimentação rica. Caminhada curta.',ch:['REST','D+1']}]},
+  {ss:[{tp:'rest',lb:'D+2 Chicago',dt:'Piscina leve 600m opcional. Mobilidade.',ch:['REST','D+2']}]},
+  {ss:[{tp:'swim',lb:'Natação Leve',dt:'800m Z1. Mobilidade.',ch:['800m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Flush',dt:'35min Z1. Desentorpecer pernas.',ch:['35min','Z1','flush']}]},
+]},
+{num:23,fase:5,label:'Bloco IM S2',vol:'14–16h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume IM',dt:'2800m. 7×400m Z2–Z3.',ch:['2800m','7×400m']},{tp:'run',lb:'Tarde Z2',dt:'35min Z2.',ch:['35min','Z2']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2',dt:'60min Z2. Pace conservador pós-Chicago.',ch:['60min','Z2']},{tp:'swim',lb:'Tarde Técnica',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa 3h',dt:'3h Z2. FC<133. 60g carbo/h.',ch:['3h','Z2','60g carbo/h']},{tp:'run',lb:'Brick Tarde',dt:'30min Z2.',ch:['30min','Z2','T2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'3000m. 5×600m Z3 (1min desc).',ch:['3000m','5×600m Z3']},{tp:'run',lb:'Médio Z2–Z3',dt:'65min: 20Z1 + 40min Z2–Z3 + 5Z1.',ch:['65min','40min Z2-Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike Intervalo',dt:'2h30. 5×12min Z3 (6min Z2).',ch:['2h30','5×12min Z3']},{tp:'swim',lb:'Tarde Z1',dt:'1200m Z1.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Foam roller. Sono.',ch:['REST']}]},
+  {ss:[{tp:'brick',lb:'Brick Longo',dt:'3h30 bike Z2 + 50min run Z2.',ch:['3h30','50min run','T2']}]},
+]},
+{num:24,fase:5,label:'Bloco IM S3 — PICO',vol:'19–22h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'3200m. 8×400m Z2–Z3.',ch:['3200m','8×400m']},{tp:'run',lb:'Tarde Z2',dt:'40min Z2.',ch:['40min','Z2']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2–Z3',dt:'70min Z2–Z3.',ch:['70min','Z2-Z3']},{tp:'swim',lb:'Tarde Z1',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Longa 4h',dt:'4h Z2. FC<133. 65g carbo/h. Saída às 5h30.',ch:['4h','Z2','65g carbo/h']},{tp:'run',lb:'Brick Tarde',dt:'35min Z2 imediato.',ch:['35min','Z2','T2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'3400m. 6×500m Z3 + 400m VF.',ch:['3400m','6×500m Z3']},{tp:'bike',lb:'Tarde: Bike Z2',dt:'2h Z2.',ch:['2h','Z2']}]},
+  {ss:[{tp:'brick',lb:'BRICK RAINHA — 5h+60min',dt:'5h bike Z2 (FC rigorosamente <133, 65g carbo/h) + 60min run Z2 imediato. Maior sessão do ciclo.',ch:['5h bike','60min run','RAINHA','FC<133']}]},
+  {ss:[{tp:'swim',lb:'Swim Recuperação',dt:'1600m Z1. Muito leve pós-brick rainha.',ch:['1600m','Z1','rec.']}]},
+  {ss:[{tp:'run',lb:'Longão Suave',dt:'80min Z1–Z2.',ch:['80min','Z1-Z2']}]},
+]},
+{num:25,fase:5,label:'Bloco IM S4',vol:'18–20h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Volume',dt:'3000m. 5×600m Z2–Z3.',ch:['3000m','5×600m']},{tp:'run',lb:'Tarde Z2',dt:'35min Z2.',ch:['35min','Z2']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2',dt:'65min Z2.',ch:['65min','Z2']},{tp:'swim',lb:'Tarde Técnica',dt:'1600m Z1.',ch:['1600m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike 3h30',dt:'3h30 Z2. 60g carbo/h.',ch:['3h30','Z2','60g carbo/h']},{tp:'run',lb:'Brick',dt:'30min Z2.',ch:['30min','Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'2800m. 7×400m Z3.',ch:['2800m','7×400m Z3']},{tp:'run',lb:'Médio Z2–Z3',dt:'70min: 20Z1 + 45min Z2–Z3 + 5Z1.',ch:['70min','45min Z2-Z3']}]},
+  {ss:[{tp:'bike',lb:'Bike 4h',dt:'4h Z2.',ch:['4h','Z2']},{tp:'swim',lb:'Tarde',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Sono 9h.',ch:['REST']}]},
+  {ss:[{tp:'brick',lb:'Brick Longo',dt:'4h bike Z2 + 55min run Z2.',ch:['4h bike','55min run']}]},
+]},
+{num:26,fase:5,label:'Taper IM + IRONMAN FLORIDA',vol:'6–8h',dias:[
+  // S26 começa 6 Nov (Sex). Dia 0=Sex, 1=Sab, 2=Dom 8 Nov (IRONMAN!)
+  {ss:[{tp:'swim',lb:'Natação Leve Pré-IM',dt:'1200m Z1. Reconhecer raia Panama City Beach.',ch:['1200m','Z1','reconhecimento']}]},
+  {ss:[{tp:'rest',lb:'Véspera do Ironman',dt:'Rack da bike. Bags. Dormir 21h. Despertar 4h.',ch:['REST','rack bike','véspera IM']}]},
+  {ss:[{tp:'prova',lb:'IRONMAN FLORIDA',dt:'Panama City Beach. Meta Sub 9h45. Swim 3.8km (1h05–1h10) · T1 6min · Bike 180km Z2 FC<133 (5h10–5h20) · T2 5min · Run 42.2km pace 4:44–4:58/km (3h20–3h30). Nutrição bike: 65g carbo/h. Run: gel a cada 30min.',ch:['IRONMAN FL','SUB 9h45','PROVA A']}]},
+  {ss:[{tp:'rest',lb:'D+1 Ironman',dt:'Descanso total. Massagem leve. Alimentação rica.',ch:['REST','D+1 IM']}]},
+  {ss:[{tp:'rest',lb:'D+2 Ironman',dt:'Descanso. Piscina 15min opcional.',ch:['REST','D+2 IM']}]},
+  {ss:[{tp:'rest',lb:'D+3',dt:'Descanso. Mobilidade suave.',ch:['REST']}]},
+  {ss:[{tp:'swim',lb:'1º Swim Pós-IM',dt:'800m Z1. Muito leve.',ch:['800m','Z1']}]},
+]},
+// ─────── FASE 6 — RECOVERY + HAINES ───────
+{num:27,fase:6,label:'Recovery Pós-IM S1',vol:'6–8h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Técnica',dt:'1400m Z1. Mobilidade.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'run',lb:'Trote Leve',dt:'30min Z1.',ch:['30min','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Leve',dt:'50min Z1.',ch:['50min','Z1']}]},
+  {ss:[{tp:'run',lb:'Corrida Z1–Z2',dt:'35min Z1–Z2.',ch:['35min','Z1-Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z2',dt:'1800m Z2.',ch:['1800m','Z2']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Mobilidade. Sono.',ch:['REST']}]},
+  {ss:[{tp:'run',lb:'Corrida Suave',dt:'50min Z1–Z2.',ch:['50min','Z1-Z2']}]},
+]},
+{num:28,fase:6,label:'Recovery Pós-IM S2',vol:'8–10h',dias:[
+  {ss:[{tp:'swim',lb:'Natação',dt:'2000m Z2.',ch:['2000m','Z2']}]},
+  {ss:[{tp:'run',lb:'Corrida Z2',dt:'45min Z2.',ch:['45min','Z2']},{tp:'swim',lb:'Tarde',dt:'1200m Z1.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'75min Z2.',ch:['75min','Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação',dt:'2200m Z2.',ch:['2200m','Z2']},{tp:'run',lb:'Tarde Z2',dt:'35min Z2.',ch:['35min','Z2']}]},
+  {ss:[{tp:'brick',lb:'Brick Leve',dt:'75min bike Z2 + 25min run Z2.',ch:['75min','25min run']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Sono.',ch:['REST']}]},
+  {ss:[{tp:'run',lb:'Longão Suave',dt:'70min Z1–Z2.',ch:['70min','Z1-Z2']}]},
+]},
+{num:29,fase:6,label:'Pré-Haines S1',vol:'9–11h',dias:[
+  {ss:[{tp:'swim',lb:'Natação',dt:'2400m Z2.',ch:['2400m','Z2']}]},
+  {ss:[{tp:'run',lb:'Intervalado Leve',dt:'AQ 2km + 4×1km Z3–Z4 (2min) + 2km VF.',ch:['10km','4×1km Z3-Z4']},{tp:'swim',lb:'Tarde',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'90min Z2.',ch:['90min','Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z3',dt:'2600m. 5×400m Z3.',ch:['2600m','5×400m Z3']},{tp:'run',lb:'Médio Z2',dt:'55min Z2.',ch:['55min','Z2']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'75min Z2.',ch:['75min','Z2']}]},
+  {ss:[{tp:'brick',lb:'Brick',dt:'90min bike + 25min run Z2.',ch:['90min','25min run']}]},
+  {ss:[{tp:'run',lb:'Longão',dt:'65min Z1–Z2.',ch:['65min','Z1-Z2']}]},
+]},
+{num:30,fase:6,label:'Pré-Haines S2',vol:'9–11h',dias:[
+  {ss:[{tp:'swim',lb:'Natação',dt:'2400m Z2.',ch:['2400m','Z2']}]},
+  {ss:[{tp:'run',lb:'Sharpening',dt:'AQ 2km + 4×1km Z4 (2min) + 2km VF.',ch:['10km','Z4']},{tp:'swim',lb:'Tarde',dt:'1400m Z1.',ch:['1400m','Z1']}]},
+  {ss:[{tp:'bike',lb:'Bike Z2',dt:'90min Z2.',ch:['90min','Z2']}]},
+  {ss:[{tp:'swim',lb:'Natação Z2',dt:'2200m Z2.',ch:['2200m','Z2']},{tp:'run',lb:'Médio Z2',dt:'50min Z2.',ch:['50min','Z2']}]},
+  {ss:[{tp:'bike',lb:'Bike Z1–Z2',dt:'60min Z1–Z2. Taper.',ch:['60min','Z1-Z2','taper']}]},
+  {ss:[{tp:'rest',lb:'Descanso',dt:'Descanso. Mobilidade.',ch:['REST']}]},
+  {ss:[{tp:'run',lb:'Longão',dt:'60min Z1–Z2.',ch:['60min','Z1-Z2']}]},
+]},
+{num:31,fase:6,label:'Haines City Race Week',vol:'6–7h',dias:[
+  {ss:[{tp:'swim',lb:'Natação Leve',dt:'1200m Z1. Técnica.',ch:['1200m','Z1']}]},
+  {ss:[{tp:'run',lb:'Sharpening Final',dt:'30min: 10Z1 + 2×1km Z4 + 10Z1.',ch:['30min','2×1km Z4']}]},
+  {ss:[{tp:'bike',lb:'Bike Curta',dt:'40min Z1.',ch:['40min','Z1']}]},
+  {ss:[{tp:'run',lb:'Corrida Muito Leve',dt:'20min Z1.',ch:['20min','Z1']}]},
+  {ss:[{tp:'prova',lb:'70.3 HAINES CITY',dt:'Haines City, FL. Swim 1.9km + Bike 90km + Run 21.1km. Encerramento do ciclo 2026. Curtir e celebrar!',ch:['70.3','HAINES','PROVA B','encerramento']}]},
+  {ss:[{tp:'rest',lb:'Recovery Haines D+1',dt:'Descanso. Alimentação. Celebração da temporada 2026.',ch:['REST','celebração']}]},
+  {ss:[{tp:'rest',lb:'Férias Merecidas',dt:'Fim de temporada. Descanso completo.',ch:['REST','fim temporada']}]},
+]},
+{num:32,fase:6,label:'Transição 2027',vol:'4–6h',dias:[
+  {ss:[{tp:'rest',lb:'Férias Ativas',dt:'Sem treino estruturado. Caminhadas. Recreação.',ch:['férias']}]},
+  {ss:[{tp:'swim',lb:'Natação Recreativa',dt:'30–40min. Diversão. Sem treino.',ch:['recreação']}]},
+  {ss:[{tp:'rest',lb:'Férias',dt:'Mobilidade. Reflexão do ano.',ch:['férias']}]},
+  {ss:[{tp:'rest',lb:'Férias',dt:'Descanso.',ch:['férias']}]},
+  {ss:[{tp:'rest',lb:'Véspera de Natal',dt:'Família. Zero treino.',ch:['natal']}]},
+  {ss:[{tp:'rest',lb:'Natal 🎄',dt:'Natal. Família. Merecido.',ch:['natal']}]},
+  {ss:[{tp:'run',lb:'Planejamento 2027',dt:'Trote suave 30min + conversa estratégica com STRATUS sobre 2027.',ch:['30min','Z1','2027']}]},
+]},
+];
+
+// ── GERAR MAPA DE EVENTOS ──
+const EVENTO_MAP={};
+SEMANAS.forEach((sem,si)=>{
+  sem.dias.forEach((dia,di)=>{
+    const d=addDays(START,si*7+di);
+    const k=dateKey(d);
+    EVENTO_MAP[k]=dia.ss||[];
+  });
+});
+
+// ── CALENDÁRIO ──
+const MESES=[
+  {y:2026,m:4,name:'Maio 2026'},{y:2026,m:5,name:'Junho 2026'},
+  {y:2026,m:6,name:'Julho 2026'},{y:2026,m:7,name:'Agosto 2026'},
+  {y:2026,m:8,name:'Setembro 2026'},{y:2026,m:9,name:'Outubro 2026'},
+  {y:2026,m:10,name:'Novembro 2026'},{y:2026,m:11,name:'Dezembro 2026'},
+];
+let calIdx=0;
+
+function renderCalendar(){
+  const mes=MESES[calIdx];
+  document.getElementById('cal-title').textContent=mes.name;
+  const firstDow=new Date(mes.y,mes.m,1).getDay();
+  const days=new Date(mes.y,mes.m+1,0).getDate();
+  const today=new Date();
+  let html='';
+  for(let i=0;i<firstDow;i++)html+=`<div class="cal-day empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const k=`${String(mes.m+1).padStart(2,'0')}${String(d).padStart(2,'0')}`;
+    const evs=EVENTO_MAP[k]||[];
+    const isToday=today.getFullYear()===mes.y&&today.getMonth()===mes.m&&today.getDate()===d;
+    const isRace=evs.some(e=>e.tp==='prova');
+    const tipos=[...new Set(evs.map(e=>e.tp))];
+    const borderS=isRace?`style="border:2px solid var(--c-prova);background:rgba(201,168,76,.06)"`:isToday?'':``;
+    const sessLines=evs.slice(0,3).map(e=>`<div class="cal-session-dot"><div class="cal-dot" style="background:${TC[e.tp]||'#999'}"></div><div class="cal-session-label">${e.lb}</div></div>`).join('');
+    const provaLabel=isRace?`<div class="cal-prova-label">${evs.find(e=>e.tp==='prova').lb.substring(0,16)}</div>`:'';
+    html+=`<div class="cal-day${isToday?' today':''}${isRace?' race-day':''}" ${borderS} onclick="openCalDay('${k}','${d} ${M_NAMES[mes.m]} 2026')">
+      <div class="cal-dn">${d}</div>
+      <div class="cal-sessions">${sessLines}</div>
+      ${provaLabel}
+    </div>`;
+  }
+  document.getElementById('cal-body').innerHTML=html;
+}
+function prevMonth(){if(calIdx>0){calIdx--;renderCalendar();}}
+function nextMonth(){if(calIdx<MESES.length-1){calIdx++;renderCalendar();}}
+renderCalendar();
+
+function openCalDay(key,dateStr){
+  const evs=EVENTO_MAP[key]||[];
+  if(!evs.length){
+    document.getElementById('cdm-box').innerHTML=`<button class="cdm-x" onclick="document.getElementById('cdm').classList.remove('open')">✕</button><div class="cdm-eye">${dateStr}</div><div class="cdm-h">Sem Treino</div><div style="font-size:11px;color:#9b9288;">Dia livre — fora do período de treino.</div><button class="cdm-btn" onclick="document.getElementById('cdm').classList.remove('open')">Fechar</button>`;
+    document.getElementById('cdm').classList.add('open');return;
+  }
+  const sessHtml=evs.map(e=>`<div class="cdm-session"><div class="cdm-stype" style="color:${TC[e.tp]||'#c9a84c'}">${TL[e.tp]||e.tp.toUpperCase()}</div><div class="cdm-stitle">${e.lb}</div><div class="cdm-sdetail">${e.dt}</div><div class="cdm-chips">${(e.ch||[]).map(c=>`<span class="cdm-chip">${c}</span>`).join('')}</div></div>`).join('');
+  const multiLabel=evs.length>1?`${evs.length} Sessões — Dia Duplo/Triplo`:evs[0].lb;
+  document.getElementById('cdm-box').innerHTML=`<button class="cdm-x" onclick="document.getElementById('cdm').classList.remove('open')">✕</button><div class="cdm-eye">${dateStr}</div><div class="cdm-h">${multiLabel}</div>${sessHtml}<button class="cdm-btn" onclick="showPane('treinos',document.querySelectorAll('.ntab')[1]);document.getElementById('cdm').classList.remove('open')">Ver Semana de Treino →</button>`;
+  document.getElementById('cdm').classList.add('open');
+}
+
+// ── TREINOS ──
+const FASES={1:{nome:'Adaptação Orlando',cor:'#2d6a4f',bg:'rgba(45,106,79,.12)'},2:{nome:'Base Triathlon',cor:'#1a3a5c',bg:'rgba(26,58,92,.12)'},3:{nome:'Específico Chicago',cor:'#8a6f35',bg:'rgba(138,111,53,.12)'},4:{nome:'Taper + Chicago',cor:'#922b21',bg:'rgba(146,43,33,.12)'},5:{nome:'Pico Ironman',cor:'#5b21b6',bg:'rgba(91,33,182,.12)'},6:{nome:'Recovery + Haines',cor:'#374151',bg:'rgba(55,65,81,.12)'}};
+let wIdx=0;
+(()=>{
+  const dd=document.getElementById('wk-dd');
+  const fb=document.getElementById('fb-sem');
+  SEMANAS.forEach((s,i)=>{
+    const sd=addDays(START,i*7),ed=addDays(START,i*7+6);
+    const period=`${fmtDate(sd)}–${fmtDate(ed)} 2026`;
+    [dd,fb].forEach(sel=>{const o=document.createElement('option');o.value=i;o.textContent=`S${s.num} — ${s.label} (${period})`;sel.appendChild(o);});
+  });
+})();
+
+function renderWeek(idx){
+  wIdx=idx;
+  document.getElementById('wk-dd').value=idx;
+  const sem=SEMANAS[idx];
+  const f=FASES[sem.fase];
+  const sd=addDays(START,idx*7),ed=addDays(START,idx*7+6);
+  document.getElementById('wk-period').textContent=`${fmtDate(sd)} – ${fmtDate(ed)} 2026`;
+  const fb=document.getElementById('wk-fb');
+  fb.textContent=f.nome;fb.style.cssText=`background:${f.bg};color:${f.cor};border:1px solid ${f.cor}44;`;
+  document.getElementById('wk-vol').innerHTML=`<strong>Volume:</strong> ${sem.vol}/sem`;
+
+  document.getElementById('dias-wrap').innerHTML=sem.dias.map((dia,di)=>{
+    const d=addDays(sd,di);
+    const dow=DOW_NAMES[d.getDay()];
+    const dateStr=fmtDate(d);
+    const isRace=dia.ss.some(s=>s.tp==='prova');
+    const isRest=dia.ss.length===1&&dia.ss[0].tp==='rest';
+    const mainTp=dia.ss[0].tp;
+    const sessHtml=dia.ss.map(s=>`
+      <div class="sessao s-${s.tp}">
+        <div class="s-tipo-badge ${TK[s.tp]||'rest'}">${TL[s.tp]||s.tp.toUpperCase()}</div>
+        <div class="s-title">${s.lb}</div>
+        <div class="s-detail">${s.dt}</div>
+        <div class="s-chips">${(s.ch||[]).map(c=>`<span class="s-chip">${c}</span>`).join('')}</div>
+      </div>`).join('');
+    const volTag=dia.ss.length>1?`<span class="d-vol-tag">${dia.ss.length}× sessões</span>`:'';
+    return `<div class="dia-card${isRest?' rest-day':''}${isRace?' race-day':''}">
+      <div class="d-header">
+        <div><div class="d-dow">${dow}</div><div class="d-date">${dateStr}</div></div>
+        ${volTag}
+      </div>
+      ${sessHtml}
+      <div class="d-acts">
+        <button class="d-btn" onclick="this.textContent='✓';setTimeout(()=>this.textContent='CPY',1500)">CPY</button>
+        <button class="d-btn del" onclick="this.closest('.dia-card').style.opacity='.3'">DEL</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function prevW(){if(wIdx>0)renderWeek(wIdx-1);}
+function nextW(){if(wIdx<SEMANAS.length-1)renderWeek(wIdx+1);}
+renderWeek(0);
+
+// ── IA ──
+const CONTEXT=`Você é STRATUS, Head Coach virtual do Projeto ACELERA 2026 de Robson Bonaldi. Direto, técnico, baseado em dados. Nunca diga que é Claude.
+
+PERFIL: Robson Bonaldi, 38 anos, chegou Clermont Orlando 15/Mai/2026. Nível Avançado/Quase Profissional. CTL alvo 100–140. TSS semanal 1000–1400. 9× 70.3. PR maratona 2h48 Houston jan/2026. PR 70.3 4h14 Floripa nov/2025. FC rep 37bpm, FC máx 190bpm. Zonas: Z1 90–114 | Z2 114–133 | Z3 133–152 | Z4 152–171 | Z5 171–190. Fraquezas: natação, calor. Ponto forte: corrida, mentalidade.
+
+PROVAS 2026: 13/Set — 70.3 Nice WC (prova B). 11/Out — CHICAGO MARATHON (PROVA A, meta 2h40–2h45, pace 3:47–3:54/km). 8/Nov — IRONMAN FLORIDA (PROVA A, meta sub 9h45, 27d pós-Chicago). 13/Dez — 70.3 Haines City (prova B).
+
+ESTRUTURA: 32 semanas com duplos e triplos. F1 S1–S4: adaptação, 8–12h, 1 sessão/dia. F2 S5–S8: base triathlon, 13–16h, duplos 3–4x/sem. F3 S9–S16: específico Chicago, 16–22h, duplos 4–5x/sem, longões 30→38km, pico 95km corrida S14. F4 S17–S19: taper Chicago, 6–13h. F5 S20–S28: pico Ironman, 19–22h, duplos diários, brick rainha 5h+60min. F6 S29–S32: recovery, Haines, 4–10h.
+
+Responda em português. Seja direto, técnico e estratégico. Aponte riscos claramente.`;
+
+let history=[{role:'user',content:`[CONTEXTO]\n${CONTEXT}`},{role:'assistant',content:'Contextualizado.'}];
+
+function addMsg(role,text){
+  const el=document.getElementById('ia-msgs');
+  const m=document.createElement('div');
+  m.className=`msg ${role==='assistant'?'ai':'u'}`;
+  m.innerHTML=`<div class="m-av ${role==='assistant'?'ai':'u'}">${role==='assistant'?'◈':'R'}</div><div class="m-bub">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  el.appendChild(m);el.scrollTop=el.scrollHeight;
+}
+async function iaEnviar(){
+  const inp=document.getElementById('ia-in'),btn=document.getElementById('ia-btn');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';btn.disabled=true;addMsg('user',txt);history.push({role:'user',content:txt});
+  document.getElementById('ia-typing').classList.add('show');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:CONTEXT,messages:history.filter(m=>m.role!=='system')})});
+    const data=await r.json();
+    const reply=data.content&&data.content[0]?data.content[0].text:'Erro.';
+    history.push({role:'assistant',content:reply});addMsg('assistant',reply);
+  }catch(e){addMsg('assistant','Erro de conexão.');}
+  document.getElementById('ia-typing').classList.remove('show');btn.disabled=false;
+}
+function iaChip(t){document.getElementById('ia-in').value=t;iaEnviar();}
+
+// ── FEEDBACK ──
+async function fbEnviar(){
+  const sem=document.getElementById('fb-sem').value,vol=document.getElementById('fb-vol').value,
+  fad=document.getElementById('fb-fad').value,sono=document.getElementById('fb-sono').value,
+  sw=document.getElementById('fb-sw').value,dor=document.getElementById('fb-dor').value||'Nenhum',
+  obs=document.getElementById('fb-obs').value||'Sem obs';
+  const resp=document.getElementById('fb-resp');
+  resp.textContent='STRATUS analisando...';resp.classList.add('show');
+  const p=`Check-in: ${sem}. Volume: ${vol}. Fadiga: ${fad}/5. Sono: ${sono}. Natação: ${sw}. Dores: ${dor}. Obs: ${obs}. Como STRATUS: 1) Diagnóstico 2) Ajuste tático próxima semana 3) Alerta overtraining 4) Motivação.`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:CONTEXT,messages:[{role:'user',content:p}]})});
+    const data=await r.json();
+    resp.innerHTML=(data.content&&data.content[0]?data.content[0].text:'Erro.').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  }catch(e){resp.textContent='Erro.';}
+}
+
+// ── PAINEL ──
+const MM={
+  chicago:{t:'Chicago Marathon — Estratégia',h:`<p>Data: <strong>11 Out 2026 · Dom · S22</strong><br>Meta: <strong>2h40–2h45</strong> · Pace: <strong>3:47–3:54/km</strong></p><br><ul><li>Km 1–10: 3:52/km conservador</li><li>Km 10–30: 3:48/km intensidade alvo</li><li>Km 30–42: manter ou acelerar</li><li>Gel: a cada 35–40min</li><li>FC: Z3–Z4 (133–171bpm)</li></ul>`},
+  ironman:{t:'Ironman Florida — Estratégia',h:`<p>Data: <strong>8 Nov 2026 · Dom · S26</strong><br>Meta: <strong>Sub 9h45</strong></p><br><ul><li>Swim 3.8km: 1h05–1h10</li><li>T1: 6min</li><li>Bike 180km: 5h10–5h20 · FC<133 rigoroso</li><li>T2: 5min</li><li>Run 42.2km: 3h20–3h30 (pace 4:44–4:58/km)</li></ul><br><p><strong>Crítico:</strong> 27 dias pós-Chicago. Bike Z2 conservadora = pernas para o run.</p>`},
+  volume:{t:'Volume por Fase',h:`<ul><li>F1: 8–12h/sem</li><li>F2: 13–16h/sem — duplos 3–4x</li><li>F3: 16–22h/sem — duplos 4–5x, pico S14</li><li>F4: 6–13h/sem — taper</li><li>F5: 5–22h/sem — duplos diários, brick rainha 5h+60min</li><li>F6: 4–10h/sem — recovery</li></ul>`},
+  semanas:{t:'32 Semanas · 6 Fases',h:`<ul><li><strong>F1 S1–4:</strong> Adaptação Orlando</li><li><strong>F2 S5–8:</strong> Base Triathlon + Testes B1</li><li><strong>F3 S9–16:</strong> Específico Chicago, duplos diários, longões 30→38km</li><li><strong>F4 S17–19:</strong> Taper + Nice + Chicago</li><li><strong>F5 S20–28:</strong> Pico IM, brick rainha, Ironman FL</li><li><strong>F6 S29–32:</strong> Recovery + Haines 70.3</li></ul>`},
+  corrida:{t:'Longões de Corrida — Progressão',h:`<ul><li>S5: 24km · S6: 26km · S7: 28km</li><li>S9: 30km · S10: 32km · S11: 33km</li><li>S12: 34km · S13: 35km</li><li>S14: <strong>38km PICO</strong> (~2h50 de corrida)</li><li>S15: 30km (redução) · S16: 24km (taper)</li><li>S17: 18km · S18–S19: prova</li></ul><br><p>Pace longão = pace Chicago +30–35s/km</p>`},
+  risco:{t:'27 Dias Chicago → Ironman',h:`<ul><li><strong>D1–3:</strong> Descanso total</li><li><strong>D4–7:</strong> Swim+Bike Z1 apenas</li><li><strong>D8–14:</strong> Swim, Bike Z2, Run curto 20–30min Z1</li><li><strong>D15–21:</strong> Retomada brick leve, Bike 3h Z2</li><li><strong>D22–27:</strong> Taper IM, sharpening</li></ul><br><p><strong>Chave:</strong> Bike Chicago rigorosamente Z2 (FC<133) = recuperação 30–40% mais rápida.</p>`},
+};
+function openMM(id){const m=MM[id];if(!m)return;document.getElementById('mm-cnt').innerHTML=`<h3>${m.t}</h3>${m.h}`;document.getElementById('mm').style.display='flex';}
+
+(()=>{
+  const data=[
+    {l:'S1',v:15,c:'#2d6a4f'},{l:'S2',v:20,c:'#2d6a4f'},{l:'S3',v:22,c:'#2d6a4f'},{l:'S4',v:25,c:'#2d6a4f'},
+    {l:'S5',v:34,c:'#1a3a5c'},{l:'S6',v:40,c:'#1a3a5c'},{l:'S7',v:46,c:'#1a3a5c'},{l:'S8',v:36,c:'#1a3a5c'},
+    {l:'S9',v:55,c:'#8a6f35'},{l:'S10',v:63,c:'#8a6f35'},{l:'S11',v:70,c:'#8a6f35'},{l:'S12',v:76,c:'#8a6f35'},
+    {l:'S13',v:83,c:'#8a6f35'},{l:'S14',v:100,c:'#8a6f35'},{l:'S15',v:82,c:'#8a6f35'},{l:'S16',v:68,c:'#8a6f35'},
+    {l:'S17',v:52,c:'#922b21'},{l:'S18',v:36,c:'#922b21'},{l:'S19',v:24,c:'#922b21'},
+    {l:'S20',v:14,c:'#5b21b6'},{l:'S21',v:30,c:'#5b21b6'},{l:'S22',v:16,c:'#5b21b6'},{l:'S23',v:52,c:'#5b21b6'},
+    {l:'S24',v:96,c:'#5b21b6'},{l:'S25',v:86,c:'#5b21b6'},{l:'S26',v:16,c:'#5b21b6'},{l:'S27',v:24,c:'#374151'},{l:'S28',v:30,c:'#374151'},
+    {l:'S29',v:34,c:'#374151'},{l:'S30',v:34,c:'#374151'},{l:'S31',v:26,c:'#374151'},{l:'S32',v:16,c:'#374151'},
+  ];
+  const max=Math.max(...data.map(d=>d.v));
+  document.getElementById('vol-c').innerHTML=data.map(d=>`<div class="bc"><div class="bc-b" style="height:${(d.v/max)*95}px;background:${d.c}"></div><div class="bc-l">${d.l}</div></div>`).join('');
+})();
+
+// ── AÇÕES ──
+const ACOES=[
+  {t:'Comprar bike road em Orlando (prioridade S1)',p:'Até 29 Mai 2026',done:false},
+  {t:'Localizar piscina em Clermont (NTC ou clube)',p:'Semana 1',done:false},
+  {t:'Realizar Bateria 1 de Testes (Swim 400m, Run 3km, FTP)',p:'S2–S3 · Mai–Jun',done:false},
+  {t:'Configurar Garmin 735 com zonas FC calibradas pós-teste',p:'Semana 3',done:false},
+  {t:'Mapear rotas de corrida e bike para treinos duplos cedo',p:'Semana 1',done:false},
+  {t:'Definir estratégia nutrição para treinos >2h no calor',p:'Semana 2',done:false},
+  {t:'Confirmar bib Chicago Marathon 11 Out',p:'IMEDIATAMENTE',done:false},
+  {t:'Confirmar inscrição Ironman Florida 8 Nov',p:'IMEDIATAMENTE',done:false},
+  {t:'Planejar logística Nice 70.3 França (voo + hospedagem)',p:'Até Jul 2026',done:false},
+  {t:'Avaliar compra medidor de potência bike (Assioma, Stages)',p:'Jun 2026',done:false},
+];
+function renderAcoes(){document.getElementById('acoes-l').innerHTML=ACOES.map((a,i)=>`<div class="ac-it"><div class="ac-ck ${a.done?'done':''}" onclick="toggleA(${i})">${a.done?'✓':''}</div><div><div class="ac-tx ${a.done?'done':''}">${a.t}</div><div class="ac-pr">${a.p}</div></div></div>`).join('');}
+function toggleA(i){ACOES[i].done=!ACOES[i].done;try{localStorage.setItem('ac26',JSON.stringify(ACOES.map(a=>a.done)));}catch(e){}renderAcoes();}
+try{const s=JSON.parse(localStorage.getItem('ac26')||'[]');s.forEach((v,i)=>{if(ACOES[i])ACOES[i].done=v;});}catch(e){}
+renderAcoes();
+</script>
+</body>
+</html>
